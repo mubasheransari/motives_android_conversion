@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:motives_android_conversion/Features/login_screen.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
+import 'package:motives_android_conversion/Features/timecard_popup.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
 import 'package:motives_android_conversion/theme_change/theme_event.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
@@ -54,53 +54,88 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: const EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                
                 children: [
                
                        Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                 child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                         _buildStatCard(
-                          height: 50,
-                          width: 50,
-                            title: "Time Card",
-                            iconName: "assets/time_card_icon.png",
-                            color1: Colors.purple,
-                            color2: Colors.blue,
-                          ),
+                         InkWell(
+                          onTap:(){
+                            showTimeCardPopup(context);
+                          },
+                           child: SizedBox(
+                            height: 130,
+                            width: 130,
+                             child: _buildStatCard(
+                              height: 50,
+                              width: 50,
+                                title: "Time Card",
+                                iconName: "assets/time_card_icon.png",
+                                color1: Colors.purple,
+                                color2: Colors.blue,
+                              ),
+                           ),
+                         ),
                       
                         const SizedBox(width: 12),
-                        _buildStatCard(
-                           height: 55,
-                          width: 80,
-                          title: "Start Route",
-                          iconName: "assets/new_routes-removebg-preview.png",
-                          color1: Colors.green,
-                          color2: Colors.teal,
+                        InkWell(
+                          onTap: (){},
+                          child: SizedBox(
+                            height: 130,
+                            width: 130,
+                            child: _buildStatCard(
+                               height: 55,
+                              width: 80,
+                              title: "Start Route",
+                              iconName: "assets/new_routes-removebg-preview.png",
+                              color1: Colors.green,
+                              color2: Colors.teal,
+                            ),
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        _buildStatCard(
-                           height: 50,
-                          width: 50,
-                          title: "Punch Order",
-                          iconName: "assets/punch_order-removebg-preview.png",
-                          color1: Colors.orange,
-                          color2: Colors.deepOrange,
+                        InkWell(
+                          onTap: (){},
+                          child: SizedBox(
+                            height: 130,
+                            width: 130,
+                            child: _buildStatCard(
+                               height: 50,
+                              width: 50,
+                              title: "Punch Order",
+                              iconName: "assets/punch_order-removebg-preview.png",
+                              color1: Colors.orange,
+                              color2: Colors.deepOrange,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 12),
-                        _buildStatCard(
-                           height: 50,
-                          width: 50,
-                          title: "Records",
-                          iconName: "assets/new_records.png",
-                          color1: Colors.cyan,
-                          color2: Colors.blueAccent,
+                        InkWell(
+                          onTap: (){},
+                          child: SizedBox(
+                            height: 130,
+                            width: 130,
+                            child: _buildStatCard(
+                               height: 50,
+                              width: 50,
+                              title: "Records",
+                              iconName: "assets/new_records.png",
+                              color1: Colors.cyan,
+                              color2: Colors.blueAccent,
+                            ),
+                          ),
                         ),
                       ],
                     ),
