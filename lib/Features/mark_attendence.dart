@@ -85,9 +85,25 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
     }
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
-  }
+  // void _onMapCreated(GoogleMapController controller) {
+  //   _mapController = controller;
+   
+  // }
+
+  void _onMapCreated(GoogleMapController controller) async {
+  _mapController = controller;
+
+  // Wait until visible region is available (map finished rendering first frame)
+  LatLngBounds? visibleRegion;
+  do {
+    visibleRegion = await _mapController.getVisibleRegion();
+  } while (visibleRegion.southwest.latitude == -90.0); // default "invalid" value
+
+  setState(() {
+    _isMapReady = true; // ✅ Now it's truly ready
+  });
+}
+
 
   final ImagePicker _picker = ImagePicker();
   File? _capturedImage;
@@ -118,9 +134,12 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
 
 
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Camera cancelled or failed')),
-      );
+         toastWidget(
+          "Failed! Camera cancelled or failed.",
+          Colors.red);
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Camera cancelled or failed')),
+      // );
     }
   }
 
@@ -160,6 +179,7 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
                 ),
               ),
             ),
+                if (_isMapReady)
           Positioned(
             bottom: 60,
             left: 16,
