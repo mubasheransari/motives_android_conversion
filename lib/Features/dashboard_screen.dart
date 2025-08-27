@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:motives_android_conversion/Features/mark_attendence.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
 import 'package:motives_android_conversion/Features/time_card_screen.dart';
 import 'package:motives_android_conversion/Features/timecard_popup.dart';
@@ -68,7 +69,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       children: [
                          InkWell(
                           onTap:(){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> TimeCardScreen()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> MarkAttendanceView()));
                             //showTimeCardPopup(context);
                           },
                            child: SizedBox(
