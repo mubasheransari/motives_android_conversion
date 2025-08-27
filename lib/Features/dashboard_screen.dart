@@ -244,41 +244,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required double height,
     required double width,
   }) {
-    return Expanded(
-      child: Container(
-        height: MediaQuery.of(context).size.height *0.15,
-             width: MediaQuery.of(context).size.width *0.40,
-     //   padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [color1, color2],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: color1.withOpacity(0.4),
-              blurRadius: 6,
-              offset: const Offset(2, 4),
-            )
-          ],
+    return Container(
+      height: MediaQuery.of(context).size.height *0.15,
+           width: MediaQuery.of(context).size.width *0.40,
+         //   padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [color1, color2],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-           Image.asset(iconName,height: height,width: width,),
-            const SizedBox(height: 4),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-              ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: color1.withOpacity(0.4),
+            blurRadius: 6,
+            offset: const Offset(2, 4),
+          )
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+         Image.asset(iconName,height: height,width: width,),
+          const SizedBox(height: 4),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

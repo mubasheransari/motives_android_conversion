@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
-import 'package:motives_android_conversion/Features/profile_screen.dart';
-import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
-import 'package:motives_android_conversion/theme_change/theme_event.dart';
 import 'package:motives_android_conversion/widget/gradient_button.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 import 'package:motives_android_conversion/widget/toast_widget.dart';
-
 
 class LoginScreenDark extends StatefulWidget {
   const LoginScreenDark({super.key});
@@ -45,16 +40,20 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
         toastWidget("✅ Authentication Successful!", Colors.green);
         // ignore: use_build_context_synchronously
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => DashboardScreen()));
+          context,
+          MaterialPageRoute(builder: (context) => DashboardScreen()),
+        );
       } else {
         toastWidget("❌ Authentication Failed!", Colors.red);
       }
     } catch (e) {
       debugPrint("Auth error: $e");
-              toastWidget("❌ Authentication Unsuccessful! Configure your security settings to continuet", Colors.red);
+      toastWidget(
+        "❌ Authentication Unsuccessful! Configure your security settings to continuet",
+        Colors.red,
+      );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +86,9 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
           shadowColor: isDark
               ? Colors.purple.withOpacity(0.4)
               : Colors.grey.withOpacity(0.2),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(
@@ -96,12 +96,13 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
               children: [
                 const SizedBox(height: 15),
                 Center(
-                    child: Image.asset(
-                  'assets/logo.png',
-                  height: 130,
-                  width: 130,
-                  color: isDark ? Colors.white : Colors.black,
-                )),
+                  child: Image.asset(
+                    'assets/logo.png',
+                    height: 130,
+                    width: 130,
+                    color: isDark ? Colors.white : Colors.black,
+                  ),
+                ),
                 const SizedBox(height: 20),
                 GradientText("Welcome Back", fontSize: 22),
                 const SizedBox(height: 20),
@@ -120,22 +121,26 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                   isDark: isDark,
                 ),
                 const SizedBox(height: 5),
-                   Container(
-                    alignment: Alignment.centerRight,
-                     child: TextButton(
-                                       onPressed: () {},
-                                       child: const Text(
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text(
                       "Forgot Password?",
                       style: TextStyle(color: Colors.cyan),
-                                       ),
-                                     ),
-                   ),
-                  const SizedBox(height: 10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
                 GradientButton(
                   text: "Login",
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => DashboardScreen()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DashboardScreen(),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: 18),
@@ -146,14 +151,15 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                     _authenticate();
                   },
                   child: Center(
-                      child: Image.asset(
-                    'assets/faceid_icon.png',
-                    height: 50,
-                    width: 50,
-                    color: isDark ? Colors.white : Colors.black,
-                  )),
+                    child: Image.asset(
+                      'assets/faceid_icon.png',
+                      height: 50,
+                      width: 50,
+                      color: isDark ? Colors.white : Colors.black,
+                    ),
+                  ),
                 ),
-              
+
                 const SizedBox(height: 12),
                 Container(
                   alignment: Alignment.centerRight,
@@ -211,5 +217,3 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
     );
   }
 }
-
-

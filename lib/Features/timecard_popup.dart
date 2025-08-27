@@ -15,8 +15,11 @@ import 'package:motives_android_conversion/widget/shader_mask_text.dart';
     final String checkOutTime = DateFormat('hh:mm a').format(checkOutDateTime);
 
         final storage = GetStorage();
-  var time =  storage.read("checkin_time");
-   var date= storage.read("checkin_date");
+  // var time =  storage.read("checkin_time");
+  //  var date= storage.read("checkin_date");
+    var time = storage.read("checkin_time") ?? "N/A";
+  var date = storage.read("checkin_date") ?? "N/A";
+   
 
     showDialog(
       context: context,
@@ -33,7 +36,15 @@ import 'package:motives_android_conversion/widget/shader_mask_text.dart';
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                ShaderMaskText(text: '🕒 Time Card',textxfontsize: 22,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('🕒',style: TextStyle(fontSize: 24),),
+                    SizedBox(width: 3),
+                     ShaderMaskText(text: 'Time Card',textxfontsize: 20,),
+                  ],
+                ),
+              //  ShaderMaskText(text: 'Time Card',textxfontsize: 22,),
                 // Text(
                 //   '🕒 Time Card',
                 //   style: TextStyle(

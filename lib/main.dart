@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:motives_android_conversion/Features/login_screen.dart';
 import 'package:motives_android_conversion/Features/splash_scren.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:motives_android_conversion/theme_change/theme_state.dart';
 
 void main() async{
  // await PersistentShoppingCart().init();
+   await GetStorage.init();
     WidgetsFlutterBinding.ensureInitialized();
   runApp(
     BlocProvider(
