@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:motives_android_conversion/Features/mark_attendence.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
 import 'package:motives_android_conversion/Features/time_card_screen.dart';
@@ -43,159 +44,193 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height *0.78,
+          height: MediaQuery.of(context).size.height * 0.78,
           child: Card(
             color: isDark ? const Color(0xFF1E1E1E) : Colors.grey[200],
             elevation: 8,
             shadowColor: isDark
                 ? Colors.purple.withOpacity(0.4)
                 : Colors.grey.withOpacity(0.2),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                
-                children: [
-               
-                       Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                         InkWell(
-                          onTap:(){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> MarkAttendanceView()));
-                            //showTimeCardPopup(context);
-                          },
-                           child: SizedBox(
-                            height: 130,
-                            width: 130,
-                             child: _buildStatCard(
-                              height: 50,
-                              width: 50,
-                                title: "Time Card",
-                                iconName: "assets/time_card_icon.png",
-                                color1: Colors.purple,
-                                color2: Colors.blue,
-                              ),
-                           ),
-                         ),
-                      
-                        const SizedBox(width: 12),
-                        InkWell(
-                          onTap: (){},
-                          child: SizedBox(
-                            height: 130,
-                            width: 130,
-                            child: _buildStatCard(
-                               height: 55,
-                              width: 80,
-                              title: "Start Route",
-                              iconName: "assets/new_routes-removebg-preview.png",
-                              color1: Colors.green,
-                              color2: Colors.teal,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: (){},
-                          child: SizedBox(
-                            height: 130,
-                            width: 130,
-                            child: _buildStatCard(
-                               height: 50,
-                              width: 50,
-                              title: "Punch Order",
-                              iconName: "assets/punch_order-removebg-preview.png",
-                              color1: Colors.orange,
-                              color2: Colors.deepOrange,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        InkWell(
-                          onTap: (){},
-                          child: SizedBox(
-                            height: 130,
-                            width: 130,
-                            child: _buildStatCard(
-                               height: 50,
-                              width: 50,
-                              title: "Records",
-                              iconName: "assets/new_records.png",
-                              color1: Colors.cyan,
-                              color2: Colors.blueAccent,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-          
-                     const SizedBox(height: 20),
-                      GradientText("Features", fontSize: 24),
-                      const SizedBox(height: 15),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 6,
+                    ),
+                    child: Column(
                       children: [
-                        // InkWell(
-                        //   onTap: (){
-                        //    // showTimeCardPopup(context);
-                        //   },
-                        //   child: _buildMenuButton(Icons.access_time, "Time\nCard")),
-                         InkWell(
-                          onTap:(){
-                           Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileScreen()));
-                          },
-                          child: _buildMenuButton(Icons.person, "Profile\nDetails")),
-                        // _buildMenuButton(
-                        //   Icons.alt_route,
-                        //   "Today's\nRoute",
-                        // ),
-                        // _buildMenuButton(
-                        //   Icons.shopping_cart,
-                        //   "Punch\nOrder",
-                        // ),
-                        _buildMenuButton(
-                          Icons.cloud_download,
-                          "Sync\nIn",
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                final storage = GetStorage();
+                                var ischeckedin = storage.read("checkin_time");
+                                if (ischeckedin != null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TimeCardScreen(),
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          MarkAttendanceView(),
+                                    ),
+                                  );
+                                }
+
+                                //showTimeCardPopup(context);
+                              },
+                              child: SizedBox(
+                                height: 130,
+                                width: 130,
+                                child: _buildStatCard(
+                                  height: 50,
+                                  width: 50,
+                                  title: "Time Card",
+                                  iconName: "assets/time_card_icon.png",
+                                  color1: Colors.purple,
+                                  color2: Colors.blue,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(width: 12),
+                            InkWell(
+                              onTap: () {},
+                              child: SizedBox(
+                                height: 130,
+                                width: 130,
+                                child: _buildStatCard(
+                                  height: 55,
+                                  width: 80,
+                                  title: "Start Route",
+                                  iconName:
+                                      "assets/new_routes-removebg-preview.png",
+                                  color1: Colors.green,
+                                  color2: Colors.teal,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                         _buildMenuButton(Icons.cloud_upload, "Sync\nOut"),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: SizedBox(
+                                height: 130,
+                                width: 130,
+                                child: _buildStatCard(
+                                  height: 50,
+                                  width: 50,
+                                  title: "Punch Order",
+                                  iconName:
+                                      "assets/punch_order-removebg-preview.png",
+                                  color1: Colors.orange,
+                                  color2: Colors.deepOrange,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            InkWell(
+                              onTap: () {},
+                              child: SizedBox(
+                                height: 130,
+                                width: 130,
+                                child: _buildStatCard(
+                                  height: 50,
+                                  width: 50,
+                                  title: "Records",
+                                  iconName: "assets/new_records.png",
+                                  color1: Colors.cyan,
+                                  color2: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+
+                  const SizedBox(height: 20),
+                  GradientText("Features", fontSize: 24),
+                  const SizedBox(height: 15),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 4,
+                    ),
+                    child: Column(
                       children: [
-                        _buildMenuButton(Icons.cloud_upload, "Sync\nOut"),
-                       // _buildMenuButton(Icons.reviews, "Shop\nOwner\nReview"),
-                        _buildMenuButton(Icons.add, "Add\nShops"),
-                        _buildMenuButton(Icons.calendar_month, "Leave\nRequest"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // InkWell(
+                            //   onTap: (){
+                            //    // showTimeCardPopup(context);
+                            //   },
+                            //   child: _buildMenuButton(Icons.access_time, "Time\nCard")),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileScreen(),
+                                  ),
+                                );
+                              },
+                              child: _buildMenuButton(
+                                Icons.person,
+                                "Profile\nDetails",
+                              ),
+                            ),
+                            // _buildMenuButton(
+                            //   Icons.alt_route,
+                            //   "Today's\nRoute",
+                            // ),
+                            // _buildMenuButton(
+                            //   Icons.shopping_cart,
+                            //   "Punch\nOrder",
+                            // ),
+                            _buildMenuButton(Icons.cloud_download, "Sync\nIn"),
+                            _buildMenuButton(Icons.cloud_upload, "Sync\nOut"),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildMenuButton(Icons.cloud_upload, "Sync\nOut"),
+                            // _buildMenuButton(Icons.reviews, "Shop\nOwner\nReview"),
+                            _buildMenuButton(Icons.add, "Add\nShops"),
+                            _buildMenuButton(
+                              Icons.calendar_month,
+                              "Leave\nRequest",
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            
+                  ),
                 ],
               ),
             ),
@@ -205,9 +240,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  
   Widget _buildMenuButton(IconData icon, String label) {
-      final isDark = context.watch<ThemeBloc>().state.themeMode == ThemeMode.dark;
+    final isDark = context.watch<ThemeBloc>().state.themeMode == ThemeMode.dark;
     return Column(
       children: [
         Container(
@@ -224,7 +258,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 color: Colors.purple.withOpacity(0.3),
                 blurRadius: 6,
                 offset: const Offset(2, 4),
-              )
+              ),
             ],
           ),
           child: Icon(icon, size: 24, color: Colors.white),
@@ -233,13 +267,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Text(
           label,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 12, color: isDark ? Colors.white : Colors.black,),
+          style: TextStyle(
+            fontSize: 12,
+            color: isDark ? Colors.white : Colors.black,
+          ),
         ),
       ],
     );
   }
 
-    Widget _buildStatCard({
+  Widget _buildStatCard({
     required String title,
     required String iconName,
     required Color color1,
@@ -248,9 +285,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required double width,
   }) {
     return Container(
-      height: MediaQuery.of(context).size.height *0.15,
-           width: MediaQuery.of(context).size.width *0.40,
-         //   padding: const EdgeInsets.all(16),
+      height: MediaQuery.of(context).size.height * 0.15,
+      width: MediaQuery.of(context).size.width * 0.40,
+      //   padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [color1, color2],
@@ -263,22 +300,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: color1.withOpacity(0.4),
             blurRadius: 6,
             offset: const Offset(2, 4),
-          )
+          ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-         Image.asset(iconName,height: height,width: width,),
+          Image.asset(iconName, height: height, width: width),
           const SizedBox(height: 4),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.white,
-            ),
-          ),
+          Text(title, style: TextStyle(fontSize: 14, color: Colors.white)),
         ],
       ),
     );
