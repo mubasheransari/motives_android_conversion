@@ -56,7 +56,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                // Profile Picture
                 Stack(
                   children: [
                     CircleAvatar(

@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as loc;
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
+import 'package:motives_android_conversion/widget/gradient_button.dart';
 import 'package:motives_android_conversion/widget/toast_widget.dart';
-
 
 class MarkAttendanceView extends StatefulWidget {
   const MarkAttendanceView({super.key});
@@ -87,23 +87,23 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
 
   // void _onMapCreated(GoogleMapController controller) {
   //   _mapController = controller;
-   
+
   // }
 
   void _onMapCreated(GoogleMapController controller) async {
-  _mapController = controller;
+    _mapController = controller;
 
-  // Wait until visible region is available (map finished rendering first frame)
-  LatLngBounds? visibleRegion;
-  do {
-    visibleRegion = await _mapController.getVisibleRegion();
-  } while (visibleRegion.southwest.latitude == -90.0); // default "invalid" value
+    // Wait until visible region is available (map finished rendering first frame)
+    LatLngBounds? visibleRegion;
+    do {
+      visibleRegion = await _mapController.getVisibleRegion();
+    } while (visibleRegion.southwest.latitude ==
+        -90.0); // default "invalid" value
 
-  setState(() {
-    _isMapReady = true; // ✅ Now it's truly ready
-  });
-}
-
+    setState(() {
+      _isMapReady = true; // ✅ Now it's truly ready
+    });
+  }
 
   final ImagePicker _picker = ImagePicker();
   File? _capturedImage;
@@ -113,8 +113,7 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
     DateTime now = DateTime.now();
 
     String formattedDate = DateFormat('MMM dd, yyyy').format(now);
-    String formattedTime =
-      DateFormat('hh:mm a').format(now); 
+    String formattedTime = DateFormat('hh:mm a').format(now);
     final storage = GetStorage();
     storage.write("checkin_time", formattedTime);
     storage.write("checkin_date", formattedDate);
@@ -124,30 +123,25 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
       });
 
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DashboardScreen()));
+        context,
+        MaterialPageRoute(builder: (context) => DashboardScreen()),
+      );
 
       toastWidget(
-          "Your Attendence is marked successfully at $formattedTime on $formattedDate.",
-          Colors.green);
-
-
+        "Your Attendence is marked successfully at $formattedTime on $formattedDate.",
+        Colors.green,
+      );
     } else {
-         toastWidget(
-          "Failed! Camera cancelled or failed.",
-          Colors.red);
+      toastWidget("Failed! Camera cancelled or failed.", Colors.red);
       // ScaffoldMessenger.of(context).showSnackBar(
       //   const SnackBar(content: Text('Camera cancelled or failed')),
       // );
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Stack(
         children: [
           if (_isMapReady && _initialCameraPosition != null)
@@ -160,7 +154,7 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
               myLocationButtonEnabled: false,
               zoomControlsEnabled: false,
             ),
-     
+
           if (distanceInfo.isNotEmpty)
             Positioned(
               bottom: 30,
@@ -175,36 +169,41 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
                 child: Text(
                   distanceInfo,
                   style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),
-                if (_isMapReady)
-          Positioned(
-            bottom: 60,
-            left: 16,
-            right: 16,
-            child: ElevatedButton(
-              onPressed: _markAttendance,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                backgroundColor: Colors.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+          if (_isMapReady)
+            Positioned(
+              bottom: 60,
+              left: 16,
+              right: 16,
+              child: GradientButton(
+                text: "Mark Attendance",
+                onTap: _markAttendance,
               ),
-              child: Text(
-                'Mark Attendance',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
+              //  ElevatedButton(
+              //   onPressed: _markAttendance,
+              //   style: ElevatedButton.styleFrom(
+              //     padding: const EdgeInsets.symmetric(vertical: 16),
+              //     backgroundColor: Colors.red,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //   ),
+              //   child: Text(
+              //     'Mark Attendance',
+              //     style: TextStyle(
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.white),
+              //   ),
+              // ),
             ),
-          ),
         ],
       ),
     );
   }
 }
-
