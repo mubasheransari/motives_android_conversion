@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
+import 'package:motives_android_conversion/Features/time_card_screen.dart';
 import 'package:motives_android_conversion/Features/timecard_popup.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
 import 'package:motives_android_conversion/theme_change/theme_event.dart';
@@ -67,7 +68,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       children: [
                          InkWell(
                           onTap:(){
-                            showTimeCardPopup(context);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> TimeCardScreen()));
+                            //showTimeCardPopup(context);
                           },
                            child: SizedBox(
                             height: 130,

@@ -132,34 +132,13 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                GradientButton(
-                  text: "Login",
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DashboardScreen(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 18),
-                Center(child: GradientText("OR", fontSize: 18)),
-                const SizedBox(height: 18),
-                InkWell(
-                  onTap: () {
-                    _authenticate();
-                  },
-                  child: Center(
-                    child: Image.asset(
-                      'assets/faceid_icon.png',
-                      height: 50,
-                      width: 50,
-                      color: isDark ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ),
+         
+                GradientButton(text: 
+                "Login", onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> DashboardScreen()));
 
+                }),
+           
                 const SizedBox(height: 12),
                 Container(
                   alignment: Alignment.centerRight,
