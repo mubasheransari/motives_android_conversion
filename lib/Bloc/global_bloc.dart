@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:motives_tneww/Bloc/global_event.dart';
-import 'package:motives_tneww/Bloc/global_state.dart';
-import 'package:motives_tneww/Repository/repository.dart';
+import 'package:motives_android_conversion/Bloc/global_event.dart';
+import 'package:motives_android_conversion/Bloc/global_state.dart';
+import 'package:motives_android_conversion/Models/login_model.dart';
+import 'package:motives_android_conversion/Repository/repository.dart';
 
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   GlobalBloc() : super(GlobalState()) {
@@ -10,31 +11,35 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
 
   Repository repo = Repository();
 
-  _login(
-    Login event,
-    emit,
-  ) async {
-    emit(state.copyWith(status: LoginStatus.loading));
+_login(Login event, emit) async {
+  emit(state.copyWith(status: LoginStatus.loading));
 
-    try {
-      final response = await repo.login(
-        event.email ?? "",
-        event.password ?? "",
-      );
+  try {
+    final response = await repo.login(
+      event.email ?? "",
+      event.password ?? "",
+    );
 
-      print("Status Code: ${response.statusCode}");
+    print("Status Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
 
-      if (response.statusCode == 200) {
-        emit(state.copyWith(status: LoginStatus.success));
-      } else {
-        emit(state.copyWith(
-          status: LoginStatus.failure,
-        ));
-      }
-    } catch (e) {
+    if (response.statusCode == 200) {
+      final LoginModel loginModel = loginModelFromJson(response.body);
+
+      emit(state.copyWith(
+        status: LoginStatus.success,
+        loginModel: loginModel,
+      ));
+    } else {
       emit(state.copyWith(
         status: LoginStatus.failure,
       ));
     }
+  } catch (e) {
+    emit(state.copyWith(
+      status: LoginStatus.failure,
+    ));
   }
+}
+
 }
