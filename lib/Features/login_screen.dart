@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:motives_android_conversion/Bloc/global_bloc.dart';
+import 'package:motives_android_conversion/Bloc/global_event.dart';
+import 'package:motives_android_conversion/Bloc/global_state.dart';
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
 import 'package:motives_android_conversion/widget/gradient_button.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
@@ -65,18 +69,6 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        // actions: [
-        //   Transform.scale(
-        //     scale: 0.6,
-        //     child: Switch(
-        //       value: isDark,
-        //       activeColor: Colors.purple,
-        //       onChanged: (value) {
-        //         context.read<ThemeBloc>().add(ToggleThemeEvent(value));
-        //       },
-        //     ),
-        //   ),
-        // ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
@@ -139,16 +131,60 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                   ),
                 ),
                 const SizedBox(height: 10),
+                BlocConsumer<GlobalBloc, GlobalState>(
+  listener: (context, state) {
+    if (state.status == LoginStatus.success) {
+      // ✅ Navigate to Dashboard after successful login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => DashboardScreen()),
+        
+      );
+       toastWidget("✅ Authenticated Successful!", Colors.green);
+    } else if (state.status == LoginStatus.failure) {
+          toastWidget("❌ Authentication Failed! Incorrect Email or Password", Colors.red);
+    }
+  },
+  builder: (context, state) {
+    return SizedBox(
+      width: 150,
+      child: GradientButton(
+        text: state.status == LoginStatus.loading
+            ? "Loading..." // Button text changes
+            : "Login",
+        onTap: state.status == LoginStatus.loading
+            ? null // disable button while loading
+            : () {
+                final email = emailController.text.trim();
+                final password = passwordController.text.trim();
+
+                if (email.isEmpty || password.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Enter email & password")),
+                  );
+                  return;
+                }
+
+                // 🔥 Dispatch login event
+                context.read<GlobalBloc>().add(
+                      Login(email: email, password: password),
+                    );
+              },
+      ),
+    );
+  },
+),
+
             
          
-                SizedBox(
-                width: 150,
-                  child: GradientButton(text: 
-                  "Login", onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> DashboardScreen()));
+                // SizedBox(
+                // width: 150,
+                //   child: GradientButton(text: 
+                //   "Login", onTap: (){
+                //     Navigator.push(context, MaterialPageRoute(builder: (context)=> DashboardScreen()));
                   
-                  }),
-                ),
+                //   }),
+                // ),
                 Container(
                   alignment: Alignment.center,
                   child: TextButton(

@@ -13,13 +13,13 @@ class Repository{
         body: {
           "email": email,
           "pass": password,
-          "latitude": "0.00",
-          "longitude": "0.00",
+          "latitude": "24.88732030562018",
+          "longitude": "66.97987176813096",
           "device_id": "e95a9ab3bba86f821",
           "act_type": "LOGIN",
           "action": "IN",
           "att_time": "12:00:56",
-          "att_date": "06-Jun-2024",
+          "att_date": "08-Aug-2025",
           "misc": "0",
           "dist_id": "0",
           "app_version": "1.0.1",
@@ -41,5 +41,5 @@ class Repository{
   //       "password": password,
   //     },
   //   );
-  // }
+  // } reository method key : request , value : {"email":"sohrab.ob@afriditea.com","pass":"password@786","latitude":"0.00","longitude":"0.00","device_id":"e95a9ab3bba86f821","act_type":"LOGIN","action":"IN","att_time":"12:00:56","att_date":"06-Jun-2024","misc":"0","dist_id":"0","app_version":"1.0.1"}
 }

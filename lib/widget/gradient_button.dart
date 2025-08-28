@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class GradientButton extends StatelessWidget {
   final String text;
-  final VoidCallback onTap;
+   final VoidCallback? onTap; 
   const GradientButton({super.key, required this.text, required this.onTap});
 
   @override
