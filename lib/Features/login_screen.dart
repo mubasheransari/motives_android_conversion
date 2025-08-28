@@ -134,7 +134,8 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                 BlocConsumer<GlobalBloc, GlobalState>(
   listener: (context, state) {
     if (state.status == LoginStatus.success) {
-      // ✅ Navigate to Dashboard after successful login
+
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => DashboardScreen()),
