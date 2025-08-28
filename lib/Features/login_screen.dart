@@ -84,7 +84,7 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(
-            //  crossAxisAlignment: CrossAxisAlignment.stretch,
+              //  crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 15),
                 Center(
@@ -103,7 +103,7 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                     child: GradientText("Welcome Back", fontSize: 20),
                   ),
                 ),
-               // GradientText("Welcome Back", fontSize: 20),
+                // GradientText("Welcome Back", fontSize: 20),
                 const SizedBox(height: 20),
                 _customTextField(
                   controller: emailController,
@@ -132,60 +132,53 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                 ),
                 const SizedBox(height: 10),
                 BlocConsumer<GlobalBloc, GlobalState>(
-  listener: (context, state) {
-    if (state.status == LoginStatus.success) {
+                  listener: (context, state) {
+                    if (state.status == LoginStatus.success) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DashboardScreen(),
+                        ),
+                      );
+                      toastWidget("✅ Authenticated Successfully!", Colors.green);
+                    } else if (state.status == LoginStatus.failure) {
+                      toastWidget(
+                        "Incorrect Email or Password",
+                        Colors.red,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return SizedBox(
+                      width: 160,
+                      child: GradientButton(
+                        text: state.status == LoginStatus.loading
+                            ? "Loading..."
+                            : "Login",
+                        onTap: state.status == LoginStatus.loading
+                            ? null
+                            : () {
+                                final email = emailController.text.trim();
+                                final password = passwordController.text.trim();
 
+                                if (email.isEmpty || password.isEmpty) {
+                                  toastWidget(
+                                    "Please Enter Complete Form Data!",
+                                    Colors.red,
+                                  );
+                                  return;
+                                }
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => DashboardScreen()),
-        
-      );
-       toastWidget("✅ Authenticated Successful!", Colors.green);
-    } else if (state.status == LoginStatus.failure) {
-          toastWidget("❌ Authentication Failed! Incorrect Email or Password", Colors.red);
-    }
-  },
-  builder: (context, state) {
-    return SizedBox(
-      width: 150,
-      child: GradientButton(
-        text: state.status == LoginStatus.loading
-            ? "Loading..." // Button text changes
-            : "Login",
-        onTap: state.status == LoginStatus.loading
-            ? null // disable button while loading
-            : () {
-                final email = emailController.text.trim();
-                final password = passwordController.text.trim();
-
-                if (email.isEmpty || password.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Enter email & password")),
-                  );
-                  return;
-                }
-
-                // 🔥 Dispatch login event
-                context.read<GlobalBloc>().add(
-                      Login(email: email, password: password),
+                                context.read<GlobalBloc>().add(
+                                  Login(email: email, password: password),
+                                );
+                                Focus.of(context).unfocus();
+                              },
+                      ),
                     );
-              },
-      ),
-    );
-  },
-),
+                  },
+                ),
 
-            
-         
-                // SizedBox(
-                // width: 150,
-                //   child: GradientButton(text: 
-                //   "Login", onTap: (){
-                //     Navigator.push(context, MaterialPageRoute(builder: (context)=> DashboardScreen()));
-                  
-                //   }),
-                // ),
                 Container(
                   alignment: Alignment.center,
                   child: TextButton(
@@ -196,12 +189,15 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                     ),
                   ),
                 ),
-              SizedBox(
-                height: 55,
-                width: 60,
-                child: Image.asset("assets/faceid_icon.png",color: isDark ? Colors.white : Colors.black)),
-                
-           
+                SizedBox(
+                  height: 55,
+                  width: 60,
+                  child: Image.asset(
+                    "assets/faceid_icon.png",
+                    color: isDark ? Colors.white : Colors.black,
+                  ),
+                ),
+
                 const SizedBox(height: 12),
                 Container(
                   alignment: Alignment.centerRight,
@@ -259,3 +255,6 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
     );
   }
 }
+
+
+//{"email":"sohrab.ob@afriditea.com","pass":"password@786","latitude":"0.00","longitude":"0.00","device_id":"e95a9ab3bba86f821","act_type":"LOGIN","action":"IN","att_time":"12:00:56","att_date":"06-Jun-2024","misc":"0","dist_id":"0","app_version":"1.0.1"}

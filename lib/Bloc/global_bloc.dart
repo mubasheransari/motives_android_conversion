@@ -25,11 +25,24 @@ _login(Login event, emit) async {
 
     if (response.statusCode == 200) {
       final LoginModel loginModel = loginModelFromJson(response.body);
-
-      emit(state.copyWith(
+      if(loginModel.status =="1"){
+                emit(state.copyWith(
         status: LoginStatus.success,
         loginModel: loginModel,
       ));
+      }
+       else  if(loginModel.status =="0"){
+                emit(state.copyWith(
+        status: LoginStatus.failure,
+        loginModel: loginModel,
+      ));
+      }
+
+
+      // emit(state.copyWith(
+      //   status: LoginStatus.success,
+      //   loginModel: loginModel,
+      // ));
     } else {
       emit(state.copyWith(
         status: LoginStatus.failure,
