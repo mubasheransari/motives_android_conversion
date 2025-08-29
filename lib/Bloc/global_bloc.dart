@@ -11,13 +11,48 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
 
   Repository repo = Repository();
 
-_login(Login event, emit) async {
+  _login(Login event, Emitter<GlobalState> emit) async {
+  emit(state.copyWith(status: LoginStatus.loading));
+
+  try {
+    final response = await repo.login(event.email, event.password);
+
+    print("Status Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      final LoginModel loginModel = loginModelFromJson(response.body);
+
+      print('STATUS CHECK: ${loginModel.status}');
+
+      if (loginModel.status == "1") {
+        emit(state.copyWith(
+          status: LoginStatus.success,
+          loginModel: loginModel,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: LoginStatus.failure,
+          loginModel: loginModel,
+        ));
+      }
+    } else {
+      emit(state.copyWith(status: LoginStatus.failure));
+    }
+  } catch (e) {
+    print("Login error: $e");
+    emit(state.copyWith(status: LoginStatus.failure));
+  }
+}
+
+
+/*_login(Login event, emit) async {
   emit(state.copyWith(status: LoginStatus.loading));
 
   try {
     final response = await repo.login(
-      event.email ?? "",
-      event.password ?? "",
+      event.email,
+      event.password,
     );
 
     print("Status Code: ${response.statusCode}");
@@ -25,6 +60,11 @@ _login(Login event, emit) async {
 
     if (response.statusCode == 200) {
       final LoginModel loginModel = loginModelFromJson(response.body);
+      print('STATUS CHECK ${loginModel.status}');
+      print('STATUS CHECK ${loginModel.status}');
+      print('STATUS CHECK ${loginModel.status}');
+      print('STATUS CHECK ${loginModel.status}');
+      print('STATUS CHECK ${loginModel.status}');
       if(loginModel.status =="1"){
                 emit(state.copyWith(
         status: LoginStatus.success,
@@ -53,6 +93,6 @@ _login(Login event, emit) async {
       status: LoginStatus.failure,
     ));
   }
-}
+}*/
 
 }

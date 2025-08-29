@@ -161,6 +161,9 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                                 final email = emailController.text.trim();
                                 final password = passwordController.text.trim();
 
+                                print("EMAIL ::: $email");
+                                print("PASSWORD ::: $password");
+
                                 if (email.isEmpty || password.isEmpty) {
                                   toastWidget(
                                     "Please Enter Complete Form Data!",
@@ -169,10 +172,12 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                                   return;
                                 }
 
+                                
+
                                 context.read<GlobalBloc>().add(
                                   Login(email: email, password: password),
                                 );
-                                Focus.of(context).unfocus();
+                              //  Focus.of(context).unfocus();
                               },
                       ),
                     );

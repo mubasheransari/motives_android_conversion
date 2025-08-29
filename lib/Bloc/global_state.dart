@@ -3,6 +3,7 @@ import 'package:motives_android_conversion/Models/login_model.dart';
 
 enum LoginStatus { initial, loading, success, failure }
 
+// ignore: must_be_immutable
 class GlobalState extends Equatable {
   final LoginStatus status;
   LoginModel? loginModel;

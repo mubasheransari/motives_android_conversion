@@ -9,10 +9,11 @@ abstract class GlobalEvent extends Equatable {
 
 // ignore: must_be_immutable
 class Login extends GlobalEvent {
-  Login({this.email, this.password});
+  final String email;
+  final String password;
 
-  String? email, password;
+  Login({required this.email, required this.password});
 
   @override
-  List<Object> get props => [email!, password!];
+  List<Object> get props => [email, password];
 }
