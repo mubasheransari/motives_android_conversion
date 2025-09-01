@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:motives_android_conversion/Bloc/global_event.dart';
+import 'package:motives_android_conversion/Features/login_screen.dart';
 import 'package:motives_android_conversion/Features/mark_attendence.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
 import 'package:motives_android_conversion/Features/time_card_screen.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
 import 'package:motives_android_conversion/theme_change/theme_event.dart';
+import 'package:motives_android_conversion/widget/gradient_button.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -27,15 +30,77 @@ class _DashboardScreenState extends State<DashboardScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          Transform.scale(
-            scale: 0.6,
-            child: Switch(
-              value: isDark,
-              activeColor: Colors.purple,
-              onChanged: (value) {
-                context.read<ThemeBloc>().add(ToggleThemeEvent(value));
-              },
-            ),
+          // Transform.scale(
+          //   scale: 0.6,
+          //   child: Switch(
+          //     value: isDark,
+          //     activeColor: Colors.purple,
+          //     onChanged: (value) {
+          //       context.read<ThemeBloc>().add(ToggleThemeEvent(value));
+          //     },
+          //   ),
+          // ),
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return SizedBox(
+                    height: 100,
+                    child: AlertDialog(
+                      title: const Text("Logout"),
+                      content: Text("Are you sure you want to Logout?"),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      actions: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "Cancel",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {
+                            final box = GetStorage();
+                            box.remove("email");
+                            box.remove("password");
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginScreenDark(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: const Text(
+                            "Confirm",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+            icon: Image.asset('assets/icons8-logout-50.png'),
           ),
         ],
       ),
@@ -196,7 +261,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 "Profile\nDetails",
                               ),
                             ),
-                      
+
                             _buildMenuButton(Icons.cloud_download, "Sync\nIn"),
                             _buildMenuButton(Icons.cloud_upload, "Sync\nOut"),
                           ],
@@ -206,7 +271,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             _buildMenuButton(Icons.cloud_upload, "Sync\nOut"),
-                   
+
                             _buildMenuButton(Icons.add, "Add\nShops"),
                             _buildMenuButton(
                               Icons.calendar_month,
@@ -214,6 +279,45 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                           ],
                         ),
+
+                        /*     SizedBox(height: 20,),
+
+                   Row(
+  mainAxisAlignment: MainAxisAlignment.end, // ✅ Pushes button to right
+  children: [
+    Container(
+      height: 35,
+      width: 99,
+      child: InkWell(
+        onTap: () {},
+        borderRadius: BorderRadius.circular(12),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          decoration: BoxDecoration(
+            color: Colors.red,
+          
+            // gradient: const LinearGradient(
+            //   colors: [Colors.cyan, Colors.purpleAccent],
+            //   begin: Alignment.topLeft,
+            //   end: Alignment.bottomRight,
+            // ),
+            borderRadius: BorderRadius.circular(7),
+          ),
+          child:  Center(
+            child: Text(
+              'Logout'.toUpperCase(),
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  ],
+),*/
                       ],
                     ),
                   ),
