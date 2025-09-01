@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:motives_android_conversion/Service/api_basehelper.dart';
 import 'package:http/http.dart' as http;
@@ -37,6 +38,11 @@ class Repository {
       final body = {"request": jsonEncode(payload)};
 
       final response = await http.post(Uri.parse(baseUrl), body: body);
+      if(response.statusCode == 200){
+        final box = GetStorage();
+        box.write("email", email);
+        box.write("password", password);
+      }
 
       print("➡️ Sending: ${body}");
       print("⬅️ Status Code: ${response.statusCode}");
