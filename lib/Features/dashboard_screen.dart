@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
+import 'package:motives_android_conversion/Features/available_items.dart';
 import 'package:motives_android_conversion/Features/login_screen.dart';
 import 'package:motives_android_conversion/Features/mark_attendence.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
@@ -173,7 +174,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                             const SizedBox(width: 12),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> AvailableItems()));
+                              },
                               child: SizedBox(
                                 height: 130,
                                 width: 130,
