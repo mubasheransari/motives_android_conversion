@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as loc;
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
+import 'package:motives_android_conversion/Features/time_card_screen.dart';
 import 'package:motives_android_conversion/widget/gradient_button.dart';
 import 'package:motives_android_conversion/widget/toast_widget.dart';
 
@@ -180,27 +181,30 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
               bottom: 60,
               left: 16,
               right: 16,
-              child: GradientButton(
-                text: "Mark Attendance",
-                onTap: _markAttendance,
-              ),
-              //  ElevatedButton(
-              //   onPressed: _markAttendance,
-              //   style: ElevatedButton.styleFrom(
-              //     padding: const EdgeInsets.symmetric(vertical: 16),
-              //     backgroundColor: Colors.red,
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(10),
-              //     ),
-              //   ),
-              //   child: Text(
-              //     'Mark Attendance',
-              //     style: TextStyle(
-              //         fontSize: 16,
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.white),
-              //   ),
+              child: 
+              
+              // GradientButton(
+              //   text: "Mark Attendance",
+              //   onTap: _markAttendance,
               // ),
+
+               ElevatedButton(
+                onPressed: _markAttendance,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  'Mark Attendance',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
             ),
         ],
       ),
