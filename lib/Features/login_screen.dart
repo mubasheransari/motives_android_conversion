@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:motives_android_conversion/Bloc/global_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
@@ -42,6 +43,15 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
         setState(() {
           isAuthorized = true;
         });
+
+            final box = GetStorage();
+ 
+          var email = box.read("email_auth");
+       var password=  box.read("password-auth");
+
+            context.read<GlobalBloc>().add(
+          Login(email: email, password: password),
+        );
         toastWidget("✅ Authentication Successful!", Colors.green);
         // ignore: use_build_context_synchronously
         Navigator.push(
@@ -63,6 +73,9 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+          final box = GetStorage();
+   
+   var check_email=        box.read("email_auth");
 
     return Scaffold(
       appBar: AppBar(
@@ -183,7 +196,7 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                   },
                 ),
 
-                Container(
+        check_email != null?        Container(
                   alignment: Alignment.center,
                   child: TextButton(
                     onPressed: () {},
@@ -192,15 +205,15 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                       style: TextStyle(color: Colors.cyan),
                     ),
                   ),
-                ),
-                SizedBox(
+                ):SizedBox(),
+          check_email != null?         SizedBox(
                   height: 55,
                   width: 60,
                   child: Image.asset(
                     "assets/faceid_icon.png",
                     color: isDark ? Colors.white : Colors.black,
                   ),
-                ),
+                ):SizedBox(),
 
                 const SizedBox(height: 12),
                 Container(

@@ -42,6 +42,8 @@ class Repository {
         final box = GetStorage();
         box.write("email", email);
         box.write("password", password);
+           box.write("email_auth", email);
+        box.write("password-auth", password);
       }
 
       print("➡️ Sending: ${body}");
