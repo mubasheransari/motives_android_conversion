@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:motives_android_conversion/Features/mark_attendence.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
 import 'package:motives_android_conversion/Features/time_card_screen.dart';
-import 'package:motives_android_conversion/Features/timecard_popup.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
 import 'package:motives_android_conversion/theme_change/theme_event.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
@@ -25,7 +24,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: GradientText("Dashboard", fontSize: 24),
-        //centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
@@ -184,11 +182,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // InkWell(
-                            //   onTap: (){
-                            //    // showTimeCardPopup(context);
-                            //   },
-                            //   child: _buildMenuButton(Icons.access_time, "Time\nCard")),
                             InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -203,14 +196,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 "Profile\nDetails",
                               ),
                             ),
-                            // _buildMenuButton(
-                            //   Icons.alt_route,
-                            //   "Today's\nRoute",
-                            // ),
-                            // _buildMenuButton(
-                            //   Icons.shopping_cart,
-                            //   "Punch\nOrder",
-                            // ),
+                      
                             _buildMenuButton(Icons.cloud_download, "Sync\nIn"),
                             _buildMenuButton(Icons.cloud_upload, "Sync\nOut"),
                           ],
@@ -220,7 +206,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             _buildMenuButton(Icons.cloud_upload, "Sync\nOut"),
-                            // _buildMenuButton(Icons.reviews, "Shop\nOwner\nReview"),
+                   
                             _buildMenuButton(Icons.add, "Add\nShops"),
                             _buildMenuButton(
                               Icons.calendar_month,

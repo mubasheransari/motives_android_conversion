@@ -16,6 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+  //  Focus.of(context).unfocus();
 
     // Splash screen delay logic
     Timer(const Duration(seconds: 3), () {

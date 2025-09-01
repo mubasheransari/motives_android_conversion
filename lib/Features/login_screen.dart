@@ -5,6 +5,7 @@ import 'package:motives_android_conversion/Bloc/global_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/Bloc/global_state.dart';
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
+import 'package:motives_android_conversion/Service/getDeviceId.dart';
 import 'package:motives_android_conversion/widget/gradient_button.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 import 'package:motives_android_conversion/widget/toast_widget.dart';
@@ -84,7 +85,6 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(
-              //  crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 15),
                 Center(
@@ -157,7 +157,7 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                             : "Login",
                         onTap: state.status == LoginStatus.loading
                             ? null
-                            : () {
+                            : ()async {
                                 final email = emailController.text.trim();
                                 final password = passwordController.text.trim();
 
@@ -171,13 +171,12 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                                   );
                                   return;
                                 }
-
-                                
-
                                 context.read<GlobalBloc>().add(
                                   Login(email: email, password: password),
                                 );
-                              //  Focus.of(context).unfocus();
+
+                                Focus.of(context).unfocus();
+
                               },
                       ),
                     );
@@ -262,4 +261,3 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
 }
 
 
-//{"email":"sohrab.ob@afriditea.com","pass":"password@786","latitude":"0.00","longitude":"0.00","device_id":"e95a9ab3bba86f821","act_type":"LOGIN","action":"IN","att_time":"12:00:56","att_date":"06-Jun-2024","misc":"0","dist_id":"0","app_version":"1.0.1"}
