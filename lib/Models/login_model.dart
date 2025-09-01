@@ -164,7 +164,7 @@ class Item {
   final String? brandid;
   final String? segmentId;
   final String? name;
-  final Brand? brand;
+  final String? brand;
   final Segment? segment;
   final String? compid;
   final String? ctnQty;
@@ -199,7 +199,7 @@ class Item {
         brandid: json["brandid"] as String?,
         segmentId: json["segment_id"] as String?,
         name: json["name"] as String?,
-        brand: brandValues.map[json["brand"]],
+        brand: json["brand"] as String?,
         segment: segmentValues.map[json["segment"]],
         compid: json["compid"] as String?,
         ctnQty: json["ctn_qty"] as String?,
