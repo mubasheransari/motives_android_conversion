@@ -1,12 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as loc;
+import 'package:motives_android_conversion/Bloc/global_bloc.dart';
+import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
 import 'package:motives_android_conversion/Features/time_card_screen.dart';
+import 'package:motives_android_conversion/Models/login_model.dart';
 import 'package:motives_android_conversion/widget/gradient_button.dart';
 import 'package:motives_android_conversion/widget/toast_widget.dart';
 
@@ -72,6 +76,8 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
       currentLocation.longitude ?? 67.0011,
     );
 
+    
+
     _initialCameraPosition = CameraPosition(target: _currentLatLng!, zoom: 14);
 
     if (_currentMarkerIcon != null) {
@@ -122,6 +128,10 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
       setState(() {
         _capturedImage = File(photo.path);
       });
+        final currentLocation = await location.getLocation();
+        LoginModel loginModel = LoginModel();
+
+        context.read<GlobalBloc>().add(MarkAttendance(lat: currentLocation.latitude.toString(),lng: currentLocation.longitude.toString(),type: '1',userId: loginModel.userinfo!.userId.toString()));
 
       Navigator.push(
         context,

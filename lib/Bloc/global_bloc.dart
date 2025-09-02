@@ -7,6 +7,7 @@ import 'package:motives_android_conversion/Repository/repository.dart';
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   GlobalBloc() : super(GlobalState()) {
     on<Login>(_login);
+    on<MarkAttendance>(markAttendance);
   }
 
   Repository repo = Repository();
@@ -56,21 +57,24 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     print("Response Body: ${response.body}");
 
     if (response.statusCode == 200) {
-      final LoginModel loginModel = loginModelFromJson(response.body);
+      print('Under status code 200 print');
+      print('Under status code 200 print');
+      print('Under status code 200 print');
+      // final LoginModel loginModel = loginModelFromJson(response.body);
 
-      print('STATUS CHECK: ${loginModel.status}');
+      // print('STATUS CHECK: ${loginModel.status}');
 
-      if (loginModel.status == "1") {
-        emit(state.copyWith(
-         markAttendanceStatus: MarkAttendanceStatus.success,
-          loginModel: loginModel,
-        ));
-      } else {
-        emit(state.copyWith(
-          markAttendanceStatus: MarkAttendanceStatus.failure,
-          loginModel: loginModel,
-        ));
-      }
+      // if (loginModel.status == "1") {
+      //   emit(state.copyWith(
+      //    markAttendanceStatus: MarkAttendanceStatus.success,
+      //     loginModel: loginModel,
+      //   ));
+      // } else {
+      //   emit(state.copyWith(
+      //     markAttendanceStatus: MarkAttendanceStatus.failure,
+      //     loginModel: loginModel,
+      //   ));
+      // }
     } else {
       emit(state.copyWith(markAttendanceStatus: MarkAttendanceStatus.failure));
     }
