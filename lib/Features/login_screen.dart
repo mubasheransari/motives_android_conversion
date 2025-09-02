@@ -44,14 +44,12 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
           isAuthorized = true;
         });
 
-            final box = GetStorage();
- 
-          var email = box.read("email_auth");
-       var password=  box.read("password-auth");
+        final box = GetStorage();
 
-            context.read<GlobalBloc>().add(
-          Login(email: email, password: password),
-        );
+        var email = box.read("email_auth");
+        var password = box.read("password-auth");
+
+        context.read<GlobalBloc>().add(Login(email: email, password: password));
         toastWidget("✅ Authentication Successful!", Colors.green);
         // ignore: use_build_context_synchronously
         Navigator.push(
@@ -73,9 +71,9 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-          final box = GetStorage();
-   
-   var check_email=        box.read("email_auth");
+    final box = GetStorage();
+
+    var check_email = box.read("email_auth");
 
     return Scaffold(
       appBar: AppBar(
@@ -153,12 +151,12 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                           builder: (context) => DashboardScreen(),
                         ),
                       );
-                      toastWidget("✅ Authenticated Successfully!", Colors.green);
-                    } else if (state.status == LoginStatus.failure) {
                       toastWidget(
-                        "Incorrect Email or Password",
-                        Colors.red,
+                        "✅ Authenticated Successfully!",
+                        Colors.green,
                       );
+                    } else if (state.status == LoginStatus.failure) {
+                      toastWidget("Incorrect Email or Password", Colors.red);
                     }
                   },
                   builder: (context, state) {
@@ -170,7 +168,7 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                             : "Login",
                         onTap: state.status == LoginStatus.loading
                             ? null
-                            : ()async {
+                            : () async {
                                 final email = emailController.text.trim();
                                 final password = passwordController.text.trim();
 
@@ -189,36 +187,39 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                                 );
 
                                 Focus.of(context).unfocus();
-
                               },
                       ),
                     );
                   },
                 ),
 
-        check_email != null?        Container(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "OR",
-                      style: TextStyle(color: Colors.cyan),
-                    ),
-                  ),
-                ):SizedBox(),
-          check_email != null?         InkWell(
-            onTap: (){
-              _authenticate();
-            },
-            child: SizedBox(
-                    height: 55,
-                    width: 60,
-                    child: Image.asset(
-                      "assets/faceid_icon.png",
-                      color: isDark ? Colors.white : Colors.black,
-                    ),
-                  ),
-          ):SizedBox(),
+                check_email != null
+                    ? Container(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "OR",
+                            style: TextStyle(color: Colors.cyan),
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
+                check_email != null
+                    ? InkWell(
+                        onTap: () {
+                          _authenticate();
+                        },
+                        child: SizedBox(
+                          height: 55,
+                          width: 60,
+                          child: Image.asset(
+                            "assets/faceid_icon.png",
+                            color: isDark ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
 
                 const SizedBox(height: 12),
                 Container(
@@ -277,5 +278,3 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
     );
   }
 }
-
-
