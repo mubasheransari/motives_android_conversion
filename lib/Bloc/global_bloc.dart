@@ -44,4 +44,39 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     emit(state.copyWith(status: LoginStatus.failure));
   }
 }
+
+
+  markAttendance(MarkAttendance event, Emitter<GlobalState> emit) async {
+  emit(state.copyWith(markAttendanceStatus: MarkAttendanceStatus.loading));
+
+  try {
+    final response = await repo.attendance(event.type,event.userId,event.lat,event.lng);
+
+    print("Status Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      final LoginModel loginModel = loginModelFromJson(response.body);
+
+      print('STATUS CHECK: ${loginModel.status}');
+
+      if (loginModel.status == "1") {
+        emit(state.copyWith(
+         markAttendanceStatus: MarkAttendanceStatus.success,
+          loginModel: loginModel,
+        ));
+      } else {
+        emit(state.copyWith(
+          markAttendanceStatus: MarkAttendanceStatus.failure,
+          loginModel: loginModel,
+        ));
+      }
+    } else {
+      emit(state.copyWith(markAttendanceStatus: MarkAttendanceStatus.failure));
+    }
+  } catch (e) {
+    print("Login error: $e");
+    emit(state.copyWith(markAttendanceStatus: MarkAttendanceStatus.failure));
+  }
+}
 }
