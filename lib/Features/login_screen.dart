@@ -206,14 +206,19 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                     ),
                   ),
                 ):SizedBox(),
-          check_email != null?         SizedBox(
-                  height: 55,
-                  width: 60,
-                  child: Image.asset(
-                    "assets/faceid_icon.png",
-                    color: isDark ? Colors.white : Colors.black,
+          check_email != null?         InkWell(
+            onTap: (){
+              _authenticate();
+            },
+            child: SizedBox(
+                    height: 55,
+                    width: 60,
+                    child: Image.asset(
+                      "assets/faceid_icon.png",
+                      color: isDark ? Colors.white : Colors.black,
+                    ),
                   ),
-                ):SizedBox(),
+          ):SizedBox(),
 
                 const SizedBox(height: 12),
                 Container(
