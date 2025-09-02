@@ -8,13 +8,11 @@ import 'package:motives_android_conversion/Features/splash_scren.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
 import 'package:motives_android_conversion/theme_change/theme_state.dart';
 
-
-
 final box = GetStorage();
 var email = box.read("email");
 var password = box.read("password");
-  var email_auth = box.read("email_auth");
-  var password_auth =  box.read("password-auth");
+var email_auth = box.read("email_auth");
+var password_auth = box.read("password-auth");
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,18 +41,16 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    // 🔥 Dispatch login if email exists
     if (email != null) {
       Future.microtask(() {
         context.read<GlobalBloc>().add(
           Login(email: email!, password: password),
         );
       });
-    }
-    else if (email_auth != null){
-         context.read<GlobalBloc>().add(
-          Login(email: email_auth, password: password_auth),
-        );
+    } else if (email_auth != null) {
+      context.read<GlobalBloc>().add(
+        Login(email: email_auth, password: password_auth),
+      );
     }
   }
 

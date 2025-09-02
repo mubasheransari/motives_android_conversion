@@ -219,8 +219,8 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
                                 lat: currentLocation.latitude.toString(),
                                 lng: currentLocation.longitude.toString(),
                                 type: '1',
-                                userId:state.loginModel!.userinfo!.userId.toString()
-                                    //'1189', //loginModel.userinfo!.userId.toString(),
+                                userId: state.loginModel!.userinfo!.userId
+                                    .toString(),
                               ),
                             );
 
