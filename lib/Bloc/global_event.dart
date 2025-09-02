@@ -17,3 +17,18 @@ class Login extends GlobalEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+// ignore: must_be_immutable
+class MarkAttendance extends GlobalEvent{
+  String type;
+  String userId;
+  String lat;
+  String lng;
+
+  MarkAttendance({required this.type,required this.userId,required this.lat,required this.lng});
+
+
+  @override
+  List<Object> get props => [type, userId, lat , lng];
+
+}
