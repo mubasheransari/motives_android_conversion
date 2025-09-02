@@ -8,10 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:location/location.dart' as loc;
 import 'package:motives_android_conversion/Bloc/global_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
+import 'package:motives_android_conversion/Bloc/global_state.dart';
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
-import 'package:motives_android_conversion/Features/time_card_screen.dart';
 import 'package:motives_android_conversion/Models/login_model.dart';
-import 'package:motives_android_conversion/widget/gradient_button.dart';
 import 'package:motives_android_conversion/widget/toast_widget.dart';
 
 class MarkAttendanceView extends StatefulWidget {
@@ -76,8 +75,6 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
       currentLocation.longitude ?? 67.0011,
     );
 
-    
-
     _initialCameraPosition = CameraPosition(target: _currentLatLng!, zoom: 14);
 
     if (_currentMarkerIcon != null) {
@@ -92,23 +89,15 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
     }
   }
 
-  // void _onMapCreated(GoogleMapController controller) {
-  //   _mapController = controller;
-
-  // }
-
   void _onMapCreated(GoogleMapController controller) async {
     _mapController = controller;
-
-    // Wait until visible region is available (map finished rendering first frame)
     LatLngBounds? visibleRegion;
     do {
       visibleRegion = await _mapController.getVisibleRegion();
-    } while (visibleRegion.southwest.latitude ==
-        -90.0); // default "invalid" value
+    } while (visibleRegion.southwest.latitude == -90.0);
 
     setState(() {
-      _isMapReady = true; // ✅ Now it's truly ready
+      _isMapReady = true;
     });
   }
 
@@ -128,10 +117,17 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
       setState(() {
         _capturedImage = File(photo.path);
       });
-        final currentLocation = await location.getLocation();
-        LoginModel loginModel = LoginModel();
+      final currentLocation = await location.getLocation();
+      LoginModel loginModel = LoginModel();
 
-        context.read<GlobalBloc>().add(MarkAttendance(lat: currentLocation.latitude.toString(),lng: currentLocation.longitude.toString(),type: '1',userId: loginModel.userinfo!.userId.toString()));
+      context.read<GlobalBloc>().add(
+        MarkAttendance(
+          lat: currentLocation.latitude.toString(),
+          lng: currentLocation.longitude.toString(),
+          type: '1',
+          userId: '1189', //loginModel.userinfo!.userId.toString(),
+        ),
+      );
 
       Navigator.push(
         context,
@@ -144,9 +140,6 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
       );
     } else {
       toastWidget("Failed! Camera cancelled or failed.", Colors.red);
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Camera cancelled or failed')),
-      // );
     }
   }
 
@@ -191,30 +184,82 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
               bottom: 60,
               left: 16,
               right: 16,
-              child: 
-              
-              // GradientButton(
-              //   text: "Mark Attendance",
-              //   onTap: _markAttendance,
-              // ),
+              child:
+                  // GradientButton(
+                  //   text: "Mark Attendance",
+                  //   onTap: _markAttendance,
+                  // ),
+                  BlocBuilder<GlobalBloc, GlobalState>(
+                    builder: (context, state) {
+                      return ElevatedButton(
+                        onPressed: () async {
+                          final XFile? photo = await _picker.pickImage(
+                            source: ImageSource.camera,
+                          );
+                          DateTime now = DateTime.now();
 
-               ElevatedButton(
-                onPressed: _markAttendance,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                          String formattedDate = DateFormat(
+                            'MMM dd, yyyy',
+                          ).format(now);
+                          String formattedTime = DateFormat(
+                            'hh:mm a',
+                          ).format(now);
+                          final storage = GetStorage();
+                          storage.write("checkin_time", formattedTime);
+                          storage.write("checkin_date", formattedDate);
+                          if (photo != null) {
+                            setState(() {
+                              _capturedImage = File(photo.path);
+                            });
+                            final currentLocation = await location
+                                .getLocation();
+
+                            context.read<GlobalBloc>().add(
+                              MarkAttendance(
+                                lat: currentLocation.latitude.toString(),
+                                lng: currentLocation.longitude.toString(),
+                                type: '1',
+                                userId:state.loginModel!.userinfo!.userId.toString()
+                                    //'1189', //loginModel.userinfo!.userId.toString(),
+                              ),
+                            );
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DashboardScreen(),
+                              ),
+                            );
+
+                            toastWidget(
+                              "Your Attendence is marked successfully at $formattedTime on $formattedDate.",
+                              Colors.green,
+                            );
+                          } else {
+                            toastWidget(
+                              "Failed! Camera cancelled or failed.",
+                              Colors.red,
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'Mark Attendance',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
-                child: Text(
-                  'Mark Attendance',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ),
             ),
         ],
       ),

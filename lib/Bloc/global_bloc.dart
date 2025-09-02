@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/Bloc/global_state.dart';
 import 'package:motives_android_conversion/Models/login_model.dart';
+import 'package:motives_android_conversion/Models/markattendance_model.dart';
 import 'package:motives_android_conversion/Repository/repository.dart';
 
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
@@ -60,21 +61,21 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       print('Under status code 200 print');
       print('Under status code 200 print');
       print('Under status code 200 print');
-      // final LoginModel loginModel = loginModelFromJson(response.body);
+      final MarkAttendenceModel markAttendenceModel = markAttendenceModelFromJson(response.body);
 
-      // print('STATUS CHECK: ${loginModel.status}');
+      print('STATUS CHECK: ${markAttendenceModel.status}');
 
-      // if (loginModel.status == "1") {
-      //   emit(state.copyWith(
-      //    markAttendanceStatus: MarkAttendanceStatus.success,
-      //     loginModel: loginModel,
-      //   ));
-      // } else {
-      //   emit(state.copyWith(
-      //     markAttendanceStatus: MarkAttendanceStatus.failure,
-      //     loginModel: loginModel,
-      //   ));
-      // }
+      if (markAttendenceModel.status == "1") {
+        emit(state.copyWith(
+         markAttendanceStatus: MarkAttendanceStatus.success,
+          markAttendenceModel: markAttendenceModel,
+        ));
+      } else {
+        emit(state.copyWith(
+          markAttendanceStatus: MarkAttendanceStatus.failure,
+          markAttendenceModel: markAttendenceModel,
+        ));
+      }
     } else {
       emit(state.copyWith(markAttendanceStatus: MarkAttendanceStatus.failure));
     }
