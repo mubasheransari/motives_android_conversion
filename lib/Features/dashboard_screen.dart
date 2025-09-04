@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/Features/available_items.dart';
 import 'package:motives_android_conversion/Features/login_screen.dart';
 import 'package:motives_android_conversion/Features/mark_attendence.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
+import 'package:motives_android_conversion/Features/route_screen.dart';
 import 'package:motives_android_conversion/Features/time_card_screen.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
-import 'package:motives_android_conversion/theme_change/theme_event.dart';
-import 'package:motives_android_conversion/widget/gradient_button.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -175,7 +173,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             const SizedBox(width: 12),
                             InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> AvailableItems()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> RouteScreen()));
                               },
                               child: SizedBox(
                                 height: 130,
@@ -199,7 +197,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                              //  Navigator.push(context, MaterialPageRoute(builder: (context)=> AvailableItems()));
+                              },
                               child: SizedBox(
                                 height: 130,
                                 width: 130,

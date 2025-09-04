@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:motives_android_conversion/Bloc/global_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
+import 'package:motives_android_conversion/widget/build_cell_widget.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 import 'package:location/location.dart' as loc;
 
@@ -51,14 +52,14 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
             children: [
               TableRow(
                 children: [
-                  _buildCell(Icons.person, "CheckIn-Time"),
-                  _buildCell(Icons.access_time, time ?? "--"),
+                  buildCell(Icons.person, "CheckIn-Time"),
+                  buildCell(Icons.access_time, time ?? "--"),
                 ],
               ),
               TableRow(
                 children: [
-                  _buildCell(Icons.calendar_month, date ?? "--"),
-                  _buildCell(Icons.location_on, "Routes 0"),
+                  buildCell(Icons.calendar_month, date ?? "--"),
+                  buildCell(Icons.location_on, "Routes 0"),
                 ],
               ),
             ],
@@ -303,22 +304,5 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
     );
   }
 
-  Widget _buildCell(IconData icon, String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 35, color: Colors.cyan),
-          const SizedBox(width: 6),
-          Flexible(
-            child: Text(
-              text,
-              overflow: TextOverflow.ellipsis, // avoids overflow
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 }

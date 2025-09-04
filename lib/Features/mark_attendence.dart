@@ -106,13 +106,18 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
 
   void _markAttendance() async {
     final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
-    DateTime now = DateTime.now();
+    final now = DateTime.now();
 
+    // Separate fields
+    String formattedDay = DateFormat('EEEE').format(now);
     String formattedDate = DateFormat('MMM dd, yyyy').format(now);
     String formattedTime = DateFormat('hh:mm a').format(now);
+
     final storage = GetStorage();
-    storage.write("checkin_time", formattedTime);
+    storage.write("checkin_day", formattedDay);
     storage.write("checkin_date", formattedDate);
+    storage.write("checkin_time", formattedTime);
+
     if (photo != null) {
       setState(() {
         _capturedImage = File(photo.path);
@@ -184,82 +189,83 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
               bottom: 60,
               left: 16,
               right: 16,
-              child:
-                  // GradientButton(
-                  //   text: "Mark Attendance",
-                  //   onTap: _markAttendance,
-                  // ),
-                  BlocBuilder<GlobalBloc, GlobalState>(
-                    builder: (context, state) {
-                      return ElevatedButton(
-                        onPressed: () async {
-                          final XFile? photo = await _picker.pickImage(
-                            source: ImageSource.camera,
-                          );
-                          DateTime now = DateTime.now();
-
-                          String formattedDate = DateFormat(
-                            'MMM dd, yyyy',
-                          ).format(now);
-                          String formattedTime = DateFormat(
-                            'hh:mm a',
-                          ).format(now);
-                          final storage = GetStorage();
-                          storage.write("checkin_time", formattedTime);
-                          storage.write("checkin_date", formattedDate);
-                          if (photo != null) {
-                            setState(() {
-                              _capturedImage = File(photo.path);
-                            });
-                            final currentLocation = await location
-                                .getLocation();
-
-                            context.read<GlobalBloc>().add(
-                              MarkAttendanceEvent(
-                                lat: currentLocation.latitude.toString(),
-                                lng: currentLocation.longitude.toString(),
-                                type: '1',
-                                userId: state.loginModel!.userinfo!.userId
-                                    .toString(),
-                              ),
-                            );
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DashboardScreen(),
-                              ),
-                            );
-
-                            toastWidget(
-                              "Your Attendence is marked successfully at $formattedTime on $formattedDate.",
-                              Colors.green,
-                            );
-                          } else {
-                            toastWidget(
-                              "Failed! Camera cancelled or failed.",
-                              Colors.red,
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          backgroundColor: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          'Mark Attendance',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
+              child: BlocBuilder<GlobalBloc, GlobalState>(
+                builder: (context, state) {
+                  return ElevatedButton(
+                    onPressed: () async {
+                      final XFile? photo = await _picker.pickImage(
+                        source: ImageSource.camera,
                       );
+                      final now = DateTime.now();
+
+                      // Separate fields
+                      String formattedDay = DateFormat(
+                        'EEEE',
+                      ).format(now); // Monday
+                      String formattedDate = DateFormat(
+                        'MMM dd, yyyy',
+                      ).format(now); // Sep 04, 2025
+                      String formattedTime = DateFormat(
+                        'hh:mm a',
+                      ).format(now); // 02:30 PM
+
+                      final storage = GetStorage();
+                      storage.write("checkin_day", formattedDay);
+                      storage.write("checkin_date", formattedDate);
+                      storage.write("checkin_time", formattedTime);
+
+                      if (photo != null) {
+                        setState(() {
+                          _capturedImage = File(photo.path);
+                        });
+                        final currentLocation = await location.getLocation();
+
+                        context.read<GlobalBloc>().add(
+                          MarkAttendanceEvent(
+                            lat: currentLocation.latitude.toString(),
+                            lng: currentLocation.longitude.toString(),
+                            type: '1',
+                            userId: state.loginModel!.userinfo!.userId
+                                .toString(),
+                          ),
+                        );
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DashboardScreen(),
+                          ),
+                        );
+
+                        toastWidget(
+                          "Your Attendence is marked successfully at $formattedTime on $formattedDate.",
+                          Colors.green,
+                        );
+                      } else {
+                        toastWidget(
+                          "Failed! Camera cancelled or failed.",
+                          Colors.red,
+                        );
+                      }
                     },
-                  ),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'Mark Attendance',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
         ],
       ),
