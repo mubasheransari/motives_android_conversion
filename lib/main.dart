@@ -44,12 +44,12 @@ class _MyAppState extends State<MyApp> {
     if (email != null) {
       Future.microtask(() {
         context.read<GlobalBloc>().add(
-          Login(email: email!, password: password),
+          LoginEvent(email: email!, password: password),
         );
       });
     } else if (email_auth != null) {
       context.read<GlobalBloc>().add(
-        Login(email: email_auth, password: password_auth),
+        LoginEvent(email: email_auth, password: password_auth),
       );
     }
   }

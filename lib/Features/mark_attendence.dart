@@ -121,7 +121,7 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
       LoginModel loginModel = LoginModel();
 
       context.read<GlobalBloc>().add(
-        MarkAttendance(
+        MarkAttendanceEvent(
           lat: currentLocation.latitude.toString(),
           lng: currentLocation.longitude.toString(),
           type: '1',
@@ -215,7 +215,7 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
                                 .getLocation();
 
                             context.read<GlobalBloc>().add(
-                              MarkAttendance(
+                              MarkAttendanceEvent(
                                 lat: currentLocation.latitude.toString(),
                                 lng: currentLocation.longitude.toString(),
                                 type: '1',

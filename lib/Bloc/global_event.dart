@@ -8,24 +8,24 @@ abstract class GlobalEvent extends Equatable {
 }
 
 // ignore: must_be_immutable
-class Login extends GlobalEvent {
+class LoginEvent extends GlobalEvent {
   final String email;
   final String password;
 
-  Login({required this.email, required this.password});
+  LoginEvent({required this.email, required this.password});
 
   @override
   List<Object> get props => [email, password];
 }
 
 // ignore: must_be_immutable
-class MarkAttendance extends GlobalEvent{
+class MarkAttendanceEvent extends GlobalEvent{
   String type;
   String userId;
   String lat;
   String lng;
 
-  MarkAttendance({required this.type,required this.userId,required this.lat,required this.lng});
+  MarkAttendanceEvent({required this.type,required this.userId,required this.lat,required this.lng});
 
 
   @override

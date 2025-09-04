@@ -7,13 +7,13 @@ import 'package:motives_android_conversion/Repository/repository.dart';
 
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   GlobalBloc() : super(GlobalState()) {
-    on<Login>(_login);
-    on<MarkAttendance>(markAttendance);
+    on<LoginEvent>(_login);
+    on<MarkAttendanceEvent>(markAttendance);
   }
 
   Repository repo = Repository();
 
-  _login(Login event, Emitter<GlobalState> emit) async {
+  _login(LoginEvent event, Emitter<GlobalState> emit) async {
   emit(state.copyWith(status: LoginStatus.loading));
 
   try {
@@ -47,8 +47,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   }
 }
 
-
-  markAttendance(MarkAttendance event, Emitter<GlobalState> emit) async {
+  markAttendance(MarkAttendanceEvent event, Emitter<GlobalState> emit) async {
   emit(state.copyWith(markAttendanceStatus: MarkAttendanceStatus.loading));
 
   try {
@@ -80,7 +79,6 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       emit(state.copyWith(markAttendanceStatus: MarkAttendanceStatus.failure));
     }
   } catch (e) {
-    print("Login error: $e");
     emit(state.copyWith(markAttendanceStatus: MarkAttendanceStatus.failure));
   }
 }

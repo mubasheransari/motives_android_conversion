@@ -45,13 +45,11 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
         });
 
         final box = GetStorage();
-
         var email = box.read("email_auth");
         var password = box.read("password-auth");
 
-        context.read<GlobalBloc>().add(Login(email: email, password: password));
+        context.read<GlobalBloc>().add(LoginEvent(email: email, password: password));
         toastWidget("✅ Authentication Successful!", Colors.green);
-        // ignore: use_build_context_synchronously
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => DashboardScreen()),
@@ -183,7 +181,7 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                                   return;
                                 }
                                 context.read<GlobalBloc>().add(
-                                  Login(email: email, password: password),
+                                  LoginEvent(email: email, password: password),
                                 );
 
                                 Focus.of(context).unfocus();

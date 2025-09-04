@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:motives_android_conversion/Bloc/global_bloc.dart';
+import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
+import 'package:location/location.dart' as loc;
 
 class TimeCardScreen extends StatefulWidget {
   const TimeCardScreen({super.key});
@@ -13,6 +17,8 @@ class TimeCardScreen extends StatefulWidget {
 class _TimeCardScreenState extends State<TimeCardScreen> {
   @override
   Widget build(BuildContext context) {
+      final loc.Location location = loc.Location();
+
     final storage = GetStorage();
     var time = storage.read("checkin_time");
     var date = storage.read("checkin_date");
@@ -66,6 +72,8 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                           ),
                         ),
 
+     
+
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
@@ -73,8 +81,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          onPressed: () {
-                            final box = GetStorage();
+                          onPressed: ()async {
                  storage.remove("checkin_time");
     storage.remove("checkin_date");
                             Navigator.pushAndRemoveUntil(
@@ -84,6 +91,27 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                               ),
                               (Route<dynamic> route) => false,
                             );
+
+                                final currentLocation = await location.getLocation();
+
+                                print("LAT ${currentLocation.latitude}");
+                                print("LNG ${currentLocation.longitude}");
+                                print("USER ID ${context.read<GlobalBloc>().state.loginModel!.userinfo!.userId.toString()}");
+
+                                 context.read<GlobalBloc>().add(
+        MarkAttendanceEvent(
+          lat: currentLocation.latitude.toString(),
+          lng: currentLocation.longitude.toString(),
+          type: '0',
+          userId: context.read<GlobalBloc>().state.loginModel!.userinfo!.userId.toString(),
+        ),
+      );
+
+                    
+
+                    
+
+
                           },
                           child: const Text(
                             "Confirm",
