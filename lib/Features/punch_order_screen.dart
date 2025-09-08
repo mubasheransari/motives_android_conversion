@@ -54,7 +54,6 @@ class _PunchOrderScreenState extends State<PunchOrderScreen> {
             if (filteredItems.isEmpty) {
               return const Center(child: Text("No items found"));
             }
-
             return ListView.builder(
               itemCount: filteredItems.length,
               itemBuilder: (context, index) {
