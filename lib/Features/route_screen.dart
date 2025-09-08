@@ -12,12 +12,66 @@ class RouteScreen extends StatefulWidget {
 }
 
 class _RouteScreenState extends State<RouteScreen> {
+   String buttonText = "Break";
+  String? selectedBreak;
+  
+
+    void _showBreakPopup() async {
+    // If already Unbreak → toggle back to Break directly
+    if (buttonText == "Unbreak") {
+      setState(() {
+        buttonText = "Break";
+        selectedBreak = null;
+      });
+      return;
+    }
+
+    // Otherwise, show the break selection popup
+    final result = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Break"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text("Namaz break"),
+                onTap: () => Navigator.pop(context, "Namaz break"),
+              ),
+              ListTile(
+                title: const Text("Lunch break"),
+                onTap: () => Navigator.pop(context, "Lunch break"),
+              ),
+              ListTile(
+                title: const Text("Other"),
+                onTap: () => Navigator.pop(context, "Other"),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    // If user selected a break → change button text
+    if (result != null) {
+      setState(() {
+        selectedBreak = result;
+        buttonText = "Unbreak";
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final storage = GetStorage();
     var time = storage.read("checkin_time");
     var date = storage.read("checkin_date");
     var day = storage.read("checkin_day");
+
+  //  String buttonText = "Break";
+  // String? selectedBreak;
+
+
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +86,6 @@ class _RouteScreenState extends State<RouteScreen> {
         children: [
           const SizedBox(height: 10),
 
-          // Punch In Row
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
             child: Row(
@@ -49,7 +102,7 @@ class _RouteScreenState extends State<RouteScreen> {
             ),
           ),
 
-          // Date Row
+
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
             child: Row(
@@ -76,25 +129,26 @@ class _RouteScreenState extends State<RouteScreen> {
         ],
       ),
 
-      // 👇 Buttons fixed at the bottom
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(26.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // keep height minimal
+          mainAxisSize: MainAxisSize.min, 
           children: [
             SizedBox(
               width: double.infinity,
               height: 60,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _showBreakPopup() ;
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text(
-                  'Break!',
+                child:  Text(
+                buttonText, // 'Break!',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
