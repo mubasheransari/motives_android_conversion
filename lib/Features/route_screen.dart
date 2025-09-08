@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:motives_android_conversion/Bloc/global_bloc.dart';
+import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/widget/build_cell_widget.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 import 'package:location/location.dart' as loc;
@@ -12,17 +15,51 @@ class RouteScreen extends StatefulWidget {
 }
 
 class _RouteScreenState extends State<RouteScreen> {
-   String buttonText = "Break";
+  String buttonText = "Break";
   String? selectedBreak;
-  
+  final loc.Location location = loc.Location();
 
-    void _showBreakPopup() async {
-    // If already Unbreak → toggle back to Break directly
+  void _showBreakPopup(BuildContext context) async {
+    final currentLocation = await location.getLocation();
     if (buttonText == "Unbreak") {
+      print("Unbreak condition");
+      print("Unbreak condition");
+      print("Unbreak condition");
+      print("Unbreak condition");
+      print("Unbreak condition");
+            context.read<GlobalBloc>().add(
+        StartRouteEvent(
+          type: '1',
+          userId:context
+              .read<GlobalBloc>()
+              .state
+              .loginModel!
+              .userinfo!
+              .userId
+              .toString(), 
+          lat: currentLocation.latitude.toString(),
+          lng: currentLocation.longitude.toString(),
+        ),
+      );
       setState(() {
         buttonText = "Break";
         selectedBreak = null;
       });
+
+      //           context.read<GlobalBloc>().add(
+      //   StartRouteEvent(
+      //     type: '1',
+      //     userId: context
+      //         .read<GlobalBloc>()
+      //         .state
+      //         .loginModel!
+      //         .userinfo!
+      //         .userId
+      //         .toString(),
+      //     lat: currentLocation.latitude.toString(),
+      //     lng: currentLocation.longitude.toString(),
+      //   ),
+      // );
       return;
     }
 
@@ -53,14 +90,32 @@ class _RouteScreenState extends State<RouteScreen> {
       },
     );
 
-    // If user selected a break → change button text
+
+
+
     if (result != null) {
+      context.read<GlobalBloc>().add(
+        StartRouteEvent(
+          type: '0',
+          userId:
+           context
+              .read<GlobalBloc>()
+              .state
+              .loginModel!
+              .userinfo!
+              .userId
+              .toString(),
+          lat: currentLocation.latitude.toString(),
+          lng: currentLocation.longitude.toString(),
+        ),
+      );
       setState(() {
         selectedBreak = result;
         buttonText = "Unbreak";
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final storage = GetStorage();
@@ -68,10 +123,8 @@ class _RouteScreenState extends State<RouteScreen> {
     var date = storage.read("checkin_date");
     var day = storage.read("checkin_day");
 
-  //  String buttonText = "Break";
-  // String? selectedBreak;
-
-
+    //  String buttonText = "Break";
+    // String? selectedBreak;
 
     return Scaffold(
       appBar: AppBar(
@@ -93,16 +146,13 @@ class _RouteScreenState extends State<RouteScreen> {
                 Icon(Icons.person, size: 35, color: Colors.cyan),
                 const SizedBox(width: 6),
                 Flexible(
-                  child: Text(
-                    'PunchIn-Time',
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  child: Text('PunchIn-Time', overflow: TextOverflow.ellipsis),
                 ),
               ],
             ),
           ),
 
-
+          //    Text(context.read<GlobalBloc>().state.markAttendenceModel.journeyPlan.length.toString()),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
             child: Row(
@@ -110,21 +160,17 @@ class _RouteScreenState extends State<RouteScreen> {
                 Icon(Icons.access_time, size: 35, color: Colors.cyan),
                 const SizedBox(width: 6),
                 Flexible(
-                  child: Text(
-                    "$day, $date",
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  child: Text("$day, $date", overflow: TextOverflow.ellipsis),
                 ),
               ],
             ),
           ),
 
-        
           Padding(
-            padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.20),
-            child: const Center(
-              child: Text('Route Started!'),
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.20,
             ),
+            child: const Center(child: Text('Route Started!')),
           ),
         ],
       ),
@@ -132,14 +178,14 @@ class _RouteScreenState extends State<RouteScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(26.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min, 
+          mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
               width: double.infinity,
               height: 60,
               child: ElevatedButton(
                 onPressed: () {
-                  _showBreakPopup() ;
+                  _showBreakPopup(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
@@ -147,8 +193,8 @@ class _RouteScreenState extends State<RouteScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child:  Text(
-                buttonText, // 'Break!',
+                child: Text(
+                  buttonText, // 'Break!',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -179,7 +225,7 @@ class _RouteScreenState extends State<RouteScreen> {
                 ),
               ),
             ),
-             const SizedBox(height: 30),
+            const SizedBox(height: 30),
           ],
         ),
       ),

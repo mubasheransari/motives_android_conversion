@@ -51,6 +51,7 @@ class _MyAppState extends State<MyApp> {
           LoginEvent(email: email!, password: password),
         );
       });
+     // context.read<GlobalBloc>().add(MarkAttendanceEvent(type: type, userId: userId, lat: lat, lng: lng))
     } else if (email_auth != null) {
       print('else condition');
       print('else condition');

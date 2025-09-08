@@ -115,8 +115,6 @@ class Repository {
     String userId,
     String lat,
     String lng,
-    String activityType,
-    String action
   ) async {
     DateTime now = DateTime.now();
 
@@ -126,15 +124,28 @@ class Repository {
 
     try {
       final Map<String, dynamic> payload = {
-        "type": type,
-        "user_id": userId,
-        "latitude": lat,
-        "longitude": lng,
-        "device_id": "e95a9ab3bba86f821",
-        "activity_type": activityType,
-        "action": action,
-        "att_time": currentTime,
+
+        "type":type,
+        "user_id":userId,
+        "latitude":lat,
+        "longitude":lng,
+        "device_id":"e95a9ab3bba86f821",
+        "act_type":"ATTENDANCE",
+        "action":"IN",
+         "att_time": currentTime,
         "att_date": currentDate,
+        "misc":"0",
+        "dist_id":"0",
+        "app_version":"1.0.1"
+        // "type": type,
+        // "user_id": userId,
+        // "latitude": lat,
+        // "longitude": lng,
+        // "device_id": "e95a9ab3bba86f821",
+        // "activity_type": activityType,
+        // "action": action,
+        // "att_time": currentTime,
+        // "att_date": currentDate,
       };
 
       print("PAYLOAD $payload");

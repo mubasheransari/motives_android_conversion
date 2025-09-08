@@ -32,3 +32,18 @@ class MarkAttendanceEvent extends GlobalEvent{
   List<Object> get props => [type, userId, lat , lng];
 
 }
+
+
+class StartRouteEvent extends GlobalEvent{
+  String type;
+  String userId;
+  String lat;
+  String lng;
+
+  StartRouteEvent({required this.type,required this.userId,required this.lat,required this.lng});
+
+
+  @override
+  List<Object> get props => [type, userId, lat , lng];
+
+}

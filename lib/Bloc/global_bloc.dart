@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/Bloc/global_state.dart';
 import 'package:motives_android_conversion/Models/login_model.dart';
@@ -9,6 +12,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   GlobalBloc() : super(GlobalState()) {
     on<LoginEvent>(_login);
     on<MarkAttendanceEvent>(markAttendance);
+    on<StartRouteEvent>(startRoute);
   }
 
   Repository repo = Repository();
@@ -80,6 +84,50 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     }
   } catch (e) {
     emit(state.copyWith(markAttendanceStatus: MarkAttendanceStatus.failure));
+  }
+}
+
+ startRoute(StartRouteEvent event, Emitter<GlobalState> emit) async {
+  emit(state.copyWith(startRouteStatus: StartRouteStatus.loading));
+
+  try {
+    Response response = await repo.startRouteApi(event.type,event.userId,event.lat,event.lng);
+
+    print("Status Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+
+     final Map<String, dynamic> data = jsonDecode(response.body);
+
+      final String status = data["status"] ?? "";
+      final String message = data["message"] ?? "";
+
+      if(status == "0"){
+        print("STATUS 0 CONDITION");
+         print("STATUS 0 CONDITION");
+          print("STATUS 0 CONDITION");
+           print("STATUS 0 CONDITION");
+            print("STATUS 0 CONDITION");
+        emit(state.copyWith(startRouteStatus: StartRouteStatus.failure));
+      }
+
+      print("STATUS ${status}");
+       print("STATUS ${status}");
+        print("STATUS ${status}");
+
+            print("MESSAGE ${message}");
+           print("MESSAGE ${message}");
+
+        emit(state.copyWith(
+         startRouteStatus: StartRouteStatus.success,
+        ));
+
+    } else {
+      emit(state.copyWith(startRouteStatus: StartRouteStatus.failure));
+    }
+  } catch (e) {
+    emit(state.copyWith(startRouteStatus: StartRouteStatus.failure));
   }
 }
 }
