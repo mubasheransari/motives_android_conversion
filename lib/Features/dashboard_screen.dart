@@ -5,6 +5,7 @@ import 'package:motives_android_conversion/Features/available_items.dart';
 import 'package:motives_android_conversion/Features/login_screen.dart';
 import 'package:motives_android_conversion/Features/mark_attendence.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
+import 'package:motives_android_conversion/Features/punch_order_screen.dart';
 import 'package:motives_android_conversion/Features/route_screen.dart';
 import 'package:motives_android_conversion/Features/time_card_screen.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
@@ -207,6 +208,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             InkWell(
                               onTap: () {
+                                    Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PunchOrderScreen(),
+                                    ),
+                                  );
                               //  Navigator.push(context, MaterialPageRoute(builder: (context)=> AvailableItems()));
                               },
                               child: SizedBox(

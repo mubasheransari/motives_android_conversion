@@ -7,6 +7,7 @@ import 'package:motives_android_conversion/Features/dashboard_screen.dart';
 import 'package:motives_android_conversion/Features/splash_scren.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
 import 'package:motives_android_conversion/theme_change/theme_state.dart';
+import 'package:location/location.dart' as loc;
 
 final box = GetStorage();
 var email = box.read("email");
@@ -41,6 +42,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
+    // final loc.Location location = loc.Location();
+    //    final currentLocation = await location.getLocation();
+
     if (email != null) {
       print('if condition');
       print('if condition');
@@ -50,8 +54,11 @@ class _MyAppState extends State<MyApp> {
         context.read<GlobalBloc>().add(
           LoginEvent(email: email!, password: password),
         );
+        context.read<GlobalBloc>().add(
+          MarkAttendanceEvent(type: '1', userId: '1189', lat: '', lng: ''),
+        );
       });
-     // context.read<GlobalBloc>().add(MarkAttendanceEvent(type: type, userId: userId, lat: lat, lng: lng))
+      // context.read<GlobalBloc>().add(MarkAttendanceEvent(type: type, userId: userId, lat: lat, lng: lng))
     } else if (email_auth != null) {
       print('else condition');
       print('else condition');
