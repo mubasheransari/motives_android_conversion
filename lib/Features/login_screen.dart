@@ -153,6 +153,10 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                         "✅ Authenticated Successfully!",
                         Colors.green,
                       );
+
+                      box.write('isLoggedIn', true);
+
+
                     } else if (state.status == LoginStatus.failure) {
                       toastWidget("Incorrect Email or Password", Colors.red);
                     }

@@ -101,6 +101,8 @@ class _RouteScreenState extends State<RouteScreen> {
     var date = storage.read("checkin_date");
     var day = storage.read("checkin_day");
     var break_status = storage.read('break_status');
+    var isLoggedIn = storage.read('isLoggedIn');
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -186,15 +188,36 @@ class _RouteScreenState extends State<RouteScreen> {
               width: double.infinity,
               height: 60,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final currentLocation = await location.getLocation();
+
+                  setState(() {
+                    storage.remove('isLoggedIn');
+                    storage.write('break_status', 1);
+                    context.read<GlobalBloc>().add(
+                      StartRouteEvent(
+                        type: '1',
+                        userId: context
+                            .read<GlobalBloc>()
+                            .state
+                            .loginModel!
+                            .userinfo!
+                            .userId
+                            .toString(),
+                        lat: currentLocation.latitude.toString(),
+                        lng: currentLocation.longitude.toString(),
+                      ),
+                    );
+                  });
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text(
-                  'End Route',
+                child: Text(
+                  isLoggedIn == true ? 'Start Route' : 'End Route',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

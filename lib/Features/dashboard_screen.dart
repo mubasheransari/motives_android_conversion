@@ -9,6 +9,7 @@ import 'package:motives_android_conversion/Features/route_screen.dart';
 import 'package:motives_android_conversion/Features/time_card_screen.dart';
 import 'package:motives_android_conversion/theme_change/theme_bloc.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
+import 'package:motives_android_conversion/widget/toast_widget.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -21,6 +22,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    var storage = GetStorage();
+      var isAttendanceCheck=    storage.read("checkin_date");
 
     return Scaffold(
       appBar: AppBar(
@@ -173,7 +176,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             const SizedBox(width: 12),
                             InkWell(
                               onTap: () {
+                                if(isAttendanceCheck != null){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> RouteScreen()));
+                                }
+                                else{
+                                  toastWidget('Mark Your Attendance First', Colors.red);
+                                }
+           //                     Navigator.push(context, MaterialPageRoute(builder: (context)=> RouteScreen()));
                               },
                               child: SizedBox(
                                 height: 130,
