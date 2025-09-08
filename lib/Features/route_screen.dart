@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:motives_android_conversion/Bloc/global_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
-import 'package:motives_android_conversion/widget/build_cell_widget.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 import 'package:location/location.dart' as loc;
 
@@ -21,22 +20,19 @@ class _RouteScreenState extends State<RouteScreen> {
 
   void _showBreakPopup(BuildContext context) async {
     final currentLocation = await location.getLocation();
+    final storage = GetStorage();
     if (buttonText == "Unbreak") {
-      print("Unbreak condition");
-      print("Unbreak condition");
-      print("Unbreak condition");
-      print("Unbreak condition");
-      print("Unbreak condition");
-            context.read<GlobalBloc>().add(
+      storage.write('break_status', 1);
+      context.read<GlobalBloc>().add(
         StartRouteEvent(
           type: '1',
-          userId:context
+          userId: context
               .read<GlobalBloc>()
               .state
               .loginModel!
               .userinfo!
               .userId
-              .toString(), 
+              .toString(),
           lat: currentLocation.latitude.toString(),
           lng: currentLocation.longitude.toString(),
         ),
@@ -45,25 +41,9 @@ class _RouteScreenState extends State<RouteScreen> {
         buttonText = "Break";
         selectedBreak = null;
       });
-
-      //           context.read<GlobalBloc>().add(
-      //   StartRouteEvent(
-      //     type: '1',
-      //     userId: context
-      //         .read<GlobalBloc>()
-      //         .state
-      //         .loginModel!
-      //         .userinfo!
-      //         .userId
-      //         .toString(),
-      //     lat: currentLocation.latitude.toString(),
-      //     lng: currentLocation.longitude.toString(),
-      //   ),
-      // );
       return;
     }
 
-    // Otherwise, show the break selection popup
     final result = await showDialog<String>(
       context: context,
       builder: (context) {
@@ -90,15 +70,11 @@ class _RouteScreenState extends State<RouteScreen> {
       },
     );
 
-
-
-
     if (result != null) {
       context.read<GlobalBloc>().add(
         StartRouteEvent(
           type: '0',
-          userId:
-           context
+          userId: context
               .read<GlobalBloc>()
               .state
               .loginModel!
@@ -109,6 +85,8 @@ class _RouteScreenState extends State<RouteScreen> {
           lng: currentLocation.longitude.toString(),
         ),
       );
+      storage.write('break_status', 0);
+
       setState(() {
         selectedBreak = result;
         buttonText = "Unbreak";
@@ -122,10 +100,7 @@ class _RouteScreenState extends State<RouteScreen> {
     var time = storage.read("checkin_time");
     var date = storage.read("checkin_date");
     var day = storage.read("checkin_day");
-
-    //  String buttonText = "Break";
-    // String? selectedBreak;
-
+    var break_status = storage.read('break_status');
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -152,7 +127,6 @@ class _RouteScreenState extends State<RouteScreen> {
             ),
           ),
 
-          //    Text(context.read<GlobalBloc>().state.markAttendenceModel.journeyPlan.length.toString()),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
             child: Row(
@@ -170,7 +144,11 @@ class _RouteScreenState extends State<RouteScreen> {
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.20,
             ),
-            child: const Center(child: Text('Route Started!')),
+            child: Center(
+              child: Text(
+                break_status == 1 ? 'Route Started!' : 'Start Your Route!',
+              ),
+            ),
           ),
         ],
       ),
