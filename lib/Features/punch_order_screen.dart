@@ -17,7 +17,7 @@ class _PunchOrderScreenState extends State<PunchOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:context.read<GlobalBloc>().state.markAttendenceModel!.journeyPlan!.length != 0 ? AppBar(
+      appBar:context.read<GlobalBloc>().state.loginModel!.journeyPlan!.length != 0 ? AppBar(
        backgroundColor: Colors.transparent,
         centerTitle: true,
               title: GradientText("Punch Order", fontSize: 24),
@@ -46,12 +46,12 @@ class _PunchOrderScreenState extends State<PunchOrderScreen> {
       ),
       body: BlocBuilder<GlobalBloc, GlobalState>(
         builder: (context, state) {
-          if (state.markAttendanceStatus== MarkAttendanceStatus.success &&
-              state.markAttendenceModel!.journeyPlan!.isNotEmpty) {
-            final items =   state.markAttendenceModel!.journeyPlan!;
+          if (state.status== LoginStatus.success &&
+              state.loginModel!.journeyPlan!.isNotEmpty) {
+            final items =   state.loginModel!.journeyPlan!;
             final filteredItems = items.where((item) {
               final partyName = item.partyName.toString().toLowerCase() ?? '';
-              final custAddress = item.custAddress?.toLowerCase() ?? '';
+              final custAddress = item.custAddress.toLowerCase() ?? '';
               return partyName.contains(searchQuery) || custAddress.contains(searchQuery);
             }).toList();
 
