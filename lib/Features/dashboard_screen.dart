@@ -140,9 +140,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                final storage = GetStorage();
-                                var ischeckedin = storage.read("checkin_time");
-                                if (ischeckedin != null) {
+                                // final storage = GetStorage();
+                                // var ischeckedin = storage.read("checkin_time");
+                                if (context.read<GlobalBloc>().state.loginModel!.statusAttendance.toString() == "1") {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -178,7 +178,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             const SizedBox(width: 12),
                             InkWell(
                               onTap: () {
-                                if(isAttendanceCheck != null){
+                              if(context.read<GlobalBloc>().state.loginModel!.statusAttendance.toString() == "1"){//  if(isAttendanceCheck != null){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> RouteScreen()));
                                 }
                                 else{
@@ -209,15 +209,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                    Navigator.push(
+
+                                       if (context.read<GlobalBloc>().state.loginModel!.statusAttendance.toString() == "1") {
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          PunchOrderScreen(),
+                                      builder: (context) => PunchOrderScreen(),
                                     ),
                                   );
+                                } else {
+                                toastWidget('Mark Your Attendance First', Colors.red);
+                                
+                                  //   Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) =>
+                                  //         PunchOrderScreen(),
+                                  //   ),
+                                  // );
                               //  Navigator.push(context, MaterialPageRoute(builder: (context)=> AvailableItems()));
-                              },
+                              }},
                               child: SizedBox(
                                 height: 130,
                                 width: 130,

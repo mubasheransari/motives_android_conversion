@@ -123,8 +123,8 @@ class _RouteScreenState extends State<RouteScreen> {
                 Icon(Icons.person, size: 35, color: Colors.cyan),
                 const SizedBox(width: 6),
                 Flexible(
-                  child: Text('PunchIn-Time ${context.read<GlobalBloc>().state.loginModel!.log!.time.toString()}', overflow: TextOverflow.ellipsis),
-                ),
+                  child: Text('PunchIn-Time'))
+
               ],
             ),
           ),
