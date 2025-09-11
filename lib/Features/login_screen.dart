@@ -48,7 +48,9 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
         var email = box.read("email_auth");
         var password = box.read("password-auth");
 
-        context.read<GlobalBloc>().add(LoginEvent(email: email, password: password));
+        context.read<GlobalBloc>().add(
+          LoginEvent(email: email, password: password),
+        );
         toastWidget("✅ Authentication Successful!", Colors.green);
         Navigator.push(
           context,
@@ -155,8 +157,6 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                       );
 
                       box.write('isLoggedIn', true);
-
-
                     } else if (state.status == LoginStatus.failure) {
                       toastWidget("Incorrect Email or Password", Colors.red);
                     }
@@ -173,6 +173,9 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                             : () async {
                                 final email = emailController.text.trim();
                                 final password = passwordController.text.trim();
+                                final emailRegex = RegExp(
+                                  r'^[^@]+@[^@]+\.[^@]+',
+                                );
 
                                 print("EMAIL ::: $email");
                                 print("PASSWORD ::: $password");
@@ -183,10 +186,22 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                                     Colors.red,
                                   );
                                   return;
+                                } else if (!emailRegex.hasMatch(email)) {
+                                  toastWidget(
+                                    "Please Enter Valid Email Address",
+                                    Colors.red,
+                                  );
+                                } else {
+                                  context.read<GlobalBloc>().add(
+                                    LoginEvent(
+                                      email: email,
+                                      password: password,
+                                    ),
+                                  );
                                 }
-                                context.read<GlobalBloc>().add(
-                                  LoginEvent(email: email, password: password),
-                                );
+                                // context.read<GlobalBloc>().add(
+                                //   LoginEvent(email: email, password: password),
+                                // );
 
                                 Focus.of(context).unfocus();
                               },
