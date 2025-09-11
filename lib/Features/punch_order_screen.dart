@@ -17,7 +17,7 @@ class _PunchOrderScreenState extends State<PunchOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:context.read<GlobalBloc>().state.markAttendenceModel!.journeyPlan!.length != 0 ? AppBar(
        backgroundColor: Colors.transparent,
         centerTitle: true,
               title: GradientText("Punch Order", fontSize: 24),
@@ -38,11 +38,15 @@ class _PunchOrderScreenState extends State<PunchOrderScreen> {
               },
             ),
           ),
-        ),
+        )):AppBar(
+       backgroundColor: Colors.transparent,
+        centerTitle: true,
+              title: GradientText("Punch Order", fontSize: 24),
+    
       ),
       body: BlocBuilder<GlobalBloc, GlobalState>(
         builder: (context, state) {
-          if (   state.markAttendanceStatus== MarkAttendanceStatus.success &&
+          if (state.markAttendanceStatus== MarkAttendanceStatus.success &&
               state.markAttendenceModel!.journeyPlan!.isNotEmpty) {
             final items =   state.markAttendenceModel!.journeyPlan!;
             final filteredItems = items.where((item) {
@@ -65,7 +69,7 @@ class _PunchOrderScreenState extends State<PunchOrderScreen> {
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child:Text('No PJP Available!') //CircularProgressIndicator(),
             );
           }
         },
