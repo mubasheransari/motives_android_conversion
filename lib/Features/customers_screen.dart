@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_state.dart';
+import 'package:motives_android_conversion/Features/order_menu_screen.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 
 
@@ -60,6 +61,9 @@ class _CustomersScreenState extends State<CustomersScreen> {
               itemCount: filteredItems.length,
               itemBuilder: (context, index) {
                 return ListTile(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderMenuScreen(shopname: filteredItems[index].partyName.toString(),)));
+                  },
                   title: Text(filteredItems[index].partyName.toString() ?? ""),
                   subtitle: Text(filteredItems[index].custAddress ?? ""),
                 );
