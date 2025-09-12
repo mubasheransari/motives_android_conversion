@@ -5,6 +5,7 @@ import 'package:motives_android_conversion/Bloc/global_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 import 'package:location/location.dart' as loc;
+import 'package:motives_android_conversion/widget/toast_widget.dart';
 
 class RouteScreen extends StatefulWidget {
   const RouteScreen({super.key});
@@ -20,9 +21,9 @@ class _RouteScreenState extends State<RouteScreen> {
 
   void _showBreakPopup(BuildContext context) async {
     final currentLocation = await location.getLocation();
-    final storage = GetStorage();
+    // final storage = GetStorage();
     if (buttonText == "Unbreak") {
-      storage.write('break_status', 1);
+     // storage.write('break_status', 1);
       context.read<GlobalBloc>().add(
         StartRouteEvent(
           type: '1',
@@ -85,7 +86,7 @@ class _RouteScreenState extends State<RouteScreen> {
           lng: currentLocation.longitude.toString(),
         ),
       );
-      storage.write('break_status', 0);
+     // storage.write('break_status', 0);
 
       setState(() {
         selectedBreak = result;
@@ -123,7 +124,7 @@ class _RouteScreenState extends State<RouteScreen> {
                 Icon(Icons.person, size: 35, color: Colors.cyan),
                 const SizedBox(width: 6),
                 Flexible(
-                  child: Text('PunchIn-Time'))
+                  child: Text('PUNCH-IN TIME',style: TextStyle(fontSize: 15),))
 
               ],
             ),
@@ -136,7 +137,7 @@ class _RouteScreenState extends State<RouteScreen> {
                 Icon(Icons.access_time, size: 35, color: Colors.cyan),
                 const SizedBox(width: 6),
                 Flexible(
-                  child: Text("$day, $date", overflow: TextOverflow.ellipsis),
+                  child: Text("${context.read<GlobalBloc>().state.loginModel!.log!.tim.toString()} , ${context.read<GlobalBloc>().state.loginModel!.log!.time.toString()}", overflow: TextOverflow.ellipsis),
                 ),
               ],
             ),
@@ -160,7 +161,7 @@ class _RouteScreenState extends State<RouteScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+           /* SizedBox(
               width: double.infinity,
               height: 60,
               child: ElevatedButton(
@@ -182,7 +183,7 @@ class _RouteScreenState extends State<RouteScreen> {
                   ),
                 ),
               ),
-            ),
+            ),*/
             const SizedBox(height: 10),
             SizedBox(
               width: double.infinity,
@@ -191,9 +192,29 @@ class _RouteScreenState extends State<RouteScreen> {
                 onPressed: () async {
                   final currentLocation = await location.getLocation();
 
-                  setState(() {
-                    storage.remove('isLoggedIn');
-                    storage.write('break_status', 1);
+                  if(context.read<GlobalBloc>().state.loginModel!.journeyPlan!.length.toString() == context.read<GlobalBloc>().state.loginModel!.reasons!.length.toString()){
+
+                   context.read<GlobalBloc>().add(
+                      StartRouteEvent(
+                        type: '0',
+                        userId: context
+                            .read<GlobalBloc>()
+                            .state
+                            .loginModel!
+                            .userinfo!
+                            .userId
+                            .toString(),
+                        lat: currentLocation.latitude.toString(),
+                        lng: currentLocation.longitude.toString(),
+                      ),
+                    );
+                  }
+                  else{
+                    toastWidget("Please visit all the shops of your PJP", Colors.red);
+                  }
+
+                /*  setState(() {
+                 
                     context.read<GlobalBloc>().add(
                       StartRouteEvent(
                         type: '1',
@@ -208,7 +229,7 @@ class _RouteScreenState extends State<RouteScreen> {
                         lng: currentLocation.longitude.toString(),
                       ),
                     );
-                  });
+                  });*/
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
@@ -217,7 +238,7 @@ class _RouteScreenState extends State<RouteScreen> {
                   ),
                 ),
                 child: Text(
-                  isLoggedIn == true ? 'Start Route' : 'End Route',
+            'End Route',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
