@@ -185,7 +185,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 else{
                                   toastWidget('Mark Your Attendance First', Colors.red);
                                 }
-           //                     Navigator.push(context, MaterialPageRoute(builder: (context)=> RouteScreen()));
                               },
                               child: SizedBox(
                                 height: 130,
@@ -220,15 +219,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   );
                                 } else {
                                 toastWidget('Mark Your Attendance First', Colors.red);
-                                
-                                  //   Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) =>
-                                  //         PunchOrderScreen(),
-                                  //   ),
-                                  // );
-                              //  Navigator.push(context, MaterialPageRoute(builder: (context)=> AvailableItems()));
                               }},
                               child: SizedBox(
                                 height: 130,

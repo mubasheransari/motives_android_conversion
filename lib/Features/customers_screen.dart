@@ -19,8 +19,9 @@ class _CustomersScreenState extends State<CustomersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: Colors.white,
       appBar: AppBar(
-       backgroundColor: Colors.transparent,
+       backgroundColor: Colors.white,
         centerTitle: true,
               title: GradientText("Customers", fontSize: 24),
         bottom: PreferredSize(
