@@ -51,12 +51,12 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                       children: [
                         Row(
                           children: [
-                            Image.asset('assets/shop_orderscreen.png'),
+                            Image.asset('assets/shop_orderscreen.png',height: 40,width: 40,),
                             SizedBox(width: 5,),
-                            Text(widget.shopname,style: TextStyle(color: Colors.black,fontSize: 17),)
+                          GradientText(widget.shopname, fontSize: 18), // Text(widget.shopname,style: TextStyle(color: Colors.black,fontSize: 17),)
                           ],
                         ),
-                      SizedBox(height: 10,),
+                      SizedBox(height: 15,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,8 +72,8 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                                 child: _buildStatCard(
                                   height: 50,
                                   width: 50,
-                                  title: "Time Card",
-                                  iconName: "assets/time_card_icon.png",
+                                  title: "Checkin-in",
+                                  iconName: "assets/checkin_order.png",
                                   color1: Colors.purple,
                                   color2: Colors.blue,
                                 ),
@@ -91,9 +91,9 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                                 child: _buildStatCard(
                                   height: 55,
                                   width: 80,
-                                  title: "Start Route",
+                                  title: "Take Order",
                                   iconName:
-                                      "assets/new_routes-removebg-preview.png",
+                                      "assets/take_order.png",
                                   color1: Colors.green,
                                   color2: Colors.teal,
                                 ),
@@ -115,9 +115,9 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                                 child: _buildStatCard(
                                   height: 50,
                                   width: 50,
-                                  title: "Punch Order",
+                                  title: "Hold",
                                   iconName:
-                                      "assets/punch_order-removebg-preview.png",
+                                      "assets/hold.png",
                                   color1: Colors.orange,
                                   color2: Colors.deepOrange,
                                 ),
@@ -132,8 +132,8 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                                 child: _buildStatCard(
                                   height: 50,
                                   width: 50,
-                                  title: "Records",
-                                  iconName: "assets/new_records.png",
+                                  title: "No Order Reason",
+                                  iconName: "assets/no_order_reason.png",
                                   color1: Colors.cyan,
                                   color2: Colors.blueAccent,
                                 ),
@@ -155,9 +155,9 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                                 child: _buildStatCard(
                                   height: 50,
                                   width: 50,
-                                  title: "Punch Order",
+                                  title: "Collect Payment",
                                   iconName:
-                                      "assets/punch_order-removebg-preview.png",
+                                      "assets/collect_payment.png",
                                   color1: Color(0xff708993),
                                   color2: Color(0xffA1C2BD)
                                 ),
@@ -172,8 +172,8 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                                 child: _buildStatCard(
                                   height: 50,
                                   width: 50,
-                                  title: "Records",
-                                  iconName: "assets/new_records.png",
+                                  title: "Sale History",
+                                  iconName: "assets/sale_history.png",
                                   color1: Color(0xffA27B5C),
                                   color2: Color(0xffE8BCB9),
                                 ),
