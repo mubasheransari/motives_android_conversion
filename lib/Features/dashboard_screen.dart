@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:motives_android_conversion/Bloc/global_bloc.dart';
+import 'package:motives_android_conversion/Features/customers_screen.dart';
 import 'package:motives_android_conversion/Features/login_screen.dart';
 import 'package:motives_android_conversion/Features/mark_attendence.dart';
 import 'package:motives_android_conversion/Features/profile_screen.dart';
@@ -214,7 +215,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => PunchOrderScreen(),
+                                      builder: (context) => CustomersScreen(),
                                     ),
                                   );
                                 } else {
