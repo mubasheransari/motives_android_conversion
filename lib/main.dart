@@ -54,9 +54,9 @@ class _MyAppState extends State<MyApp> {
         context.read<GlobalBloc>().add(
           LoginEvent(email: email!, password: password),
         );
-        context.read<GlobalBloc>().add(
-          MarkAttendanceEvent(type: '1', userId: '1189', lat: '', lng: ''),
-        );
+        // context.read<GlobalBloc>().add(
+        //   MarkAttendanceEvent(type: '1', userId: '1189', lat: '', lng: ''),
+        // );
       });
       // context.read<GlobalBloc>().add(MarkAttendanceEvent(type: type, userId: userId, lat: lat, lng: lng))
     } else if (email_auth != null) {

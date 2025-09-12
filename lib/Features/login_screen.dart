@@ -203,7 +203,7 @@ class _LoginScreenDarkState extends State<LoginScreenDark> {
                                 //   LoginEvent(email: email, password: password),
                                 // );
 
-                                Focus.of(context).unfocus();
+                               // Focus.of(context).unfocus();
                               },
                       ),
                     );

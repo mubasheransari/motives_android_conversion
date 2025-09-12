@@ -55,7 +55,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
               TableRow(
                 children: [
                   buildCell(Icons.calendar_month,  context.read<GlobalBloc>().state.loginModel!.log!.time.toString() ?? "--"),
-                  buildCell(Icons.location_on, "Routes 0"),
+                  buildCell(Icons.location_on, "Routes ${context.read<GlobalBloc>().state.loginModel!.reasons!.length.toString()}"),
                 ],
               ),
             ],

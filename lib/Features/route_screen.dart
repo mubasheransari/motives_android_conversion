@@ -149,7 +149,7 @@ class _RouteScreenState extends State<RouteScreen> {
             ),
             child: Center(
               child: Text(
-                break_status == 1 ? 'Route Started!' : 'Start Your Route!',
+              'Route Started!'//  break_status == 1 ? 'Route Started!' : 'Start Your Route!',
               ),
             ),
           ),
