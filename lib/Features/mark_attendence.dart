@@ -10,24 +10,8 @@ import 'package:motives_android_conversion/Bloc/global_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/Bloc/global_state.dart';
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
-import 'package:motives_android_conversion/Models/login_model.dart';
 import 'package:motives_android_conversion/widget/toast_widget.dart';
 
-
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:location/location.dart' as loc;
-import 'package:motives_android_conversion/Bloc/global_bloc.dart';
-import 'package:motives_android_conversion/Bloc/global_event.dart';
-import 'package:motives_android_conversion/Bloc/global_state.dart';
-import 'package:motives_android_conversion/Features/dashboard_screen.dart';
-import 'package:motives_android_conversion/Models/login_model.dart';
-import 'package:motives_android_conversion/widget/toast_widget.dart';
 
 class MarkAttendanceView extends StatefulWidget {
   const MarkAttendanceView({super.key});
@@ -111,7 +95,7 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
     } while (visibleRegion.southwest.latitude == -90.0);
 
     setState(() {
-      _isMapReady = true; // ✅ Button will show only when map is fully loaded
+      _isMapReady = true; 
     });
   }
 
@@ -155,7 +139,6 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
               ),
             ),
 
-          // ✅ Mark Attendance button only after map is ready
           if (_isMapReady)
             Positioned(
               bottom: 60,
