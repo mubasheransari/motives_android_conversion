@@ -29,7 +29,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     if (response.statusCode == 200) {
       final LoginModel loginModel = loginModelFromJson(response.body);
 
-      print('STATUS CHECK: ${loginModel.status}');
+      print('STATUS CHECK OF LOGIN: ${loginModel.status}');
 
       if (loginModel.status == "1") {
         emit(state.copyWith(
@@ -46,7 +46,6 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       emit(state.copyWith(status: LoginStatus.failure));
     }
   } catch (e) {
-    print("Login error: $e");
     emit(state.copyWith(status: LoginStatus.failure));
   }
 }
