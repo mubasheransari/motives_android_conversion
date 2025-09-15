@@ -63,7 +63,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
               itemBuilder: (context, index) {
                 return ListTile(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderMenuScreen(shopname: filteredItems[index].partyName.toString(),)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderMenuScreen(shopname: filteredItems[index].partyName.toString(),miscid: filteredItems[index].accode.toString())));
                   },
                   title: Text(filteredItems[index].partyName.toString() ?? ""),
                   subtitle: Text(filteredItems[index].custAddress ?? ""),

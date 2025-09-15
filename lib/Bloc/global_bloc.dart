@@ -168,6 +168,10 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
         final String status = data["status"] ?? "";
         final String message = data["message"] ?? "";
 
+        print("DATA $status");
+
+         print("MESSAGE $message");
+
         if (status == "0") {
           emit(
             state.copyWith(

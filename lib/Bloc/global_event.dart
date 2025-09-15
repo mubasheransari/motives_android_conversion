@@ -53,6 +53,7 @@ class StartRouteEvent extends GlobalEvent {
   List<Object> get props => [type, userId, lat, lng];
 }
 
+// ignore: must_be_immutable
 class CheckinCheckoutEvent extends GlobalEvent {
   String type;
   String userId;

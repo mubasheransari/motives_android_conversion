@@ -141,8 +141,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             InkWell(
                               onTap: () {
                               
-                                // final storage = GetStorage();
-                                // var ischeckedin = storage.read("checkin_time");
                            if (context.read<GlobalBloc>().state.loginModel!.statusAttendance == "1") {
                                   Navigator.push(
                                     context,

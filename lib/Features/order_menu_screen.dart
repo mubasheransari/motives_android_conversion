@@ -1,17 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:location/location.dart' as loc;
+import 'package:motives_android_conversion/Bloc/global_bloc.dart';
+import 'package:motives_android_conversion/Bloc/global_event.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 
 class OrderMenuScreen extends StatefulWidget {
-  String shopname;
-   OrderMenuScreen({super.key,required this.shopname});
+  String shopname,miscid;
+   OrderMenuScreen({super.key,required this.shopname,required this.miscid});
 
   @override
   State<OrderMenuScreen> createState() => _OrderMenuScreenState();
 }
 
 class _OrderMenuScreenState extends State<OrderMenuScreen> {
+
+      String checkInText = "Check In";
+  String iconAsset = "assets/checkin_order.png";
+    final loc.Location location = loc.Location();
+
+  void _toggleCheckIn() {
+    setState(() {
+      if (checkInText == "Check In") {
+        checkInText = "Check Out";
+        iconAsset = "assets/checkout_order.png";
+      } else {
+        checkInText = "Check In";
+        iconAsset = "assets/checkin_order.png";
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: GradientText("Order Menu", fontSize: 24),
@@ -53,7 +74,7 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                           children: [
                             Image.asset('assets/shop_orderscreen.png',height: 40,width: 40,),
                             SizedBox(width: 5,),
-                          GradientText(widget.shopname, fontSize: 18), // Text(widget.shopname,style: TextStyle(color: Colors.black,fontSize: 17),)
+                          GradientText(widget.shopname, fontSize: 18), 
                           ],
                         ),
                       SizedBox(height: 15,),
@@ -62,8 +83,10 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {
-                              
+                              onTap: () async{
+                                     final currentLocation = await location.getLocation();
+                          _toggleCheckIn();
+                          context.read<GlobalBloc>().add(CheckinCheckoutEvent(type: '5', userId:   context.read<GlobalBloc>().state.loginModel!.userinfo!.userId.toString(), lat: currentLocation.latitude.toString(), lng: currentLocation.longitude.toString(), act_type: "SHOP_CHECK", action: "IN", misc: widget.miscid, dist_id:   context.read<GlobalBloc>().state.loginModel!.userinfo!.disid.toString()));
                            
                               },
                               child: SizedBox(
@@ -72,7 +95,7 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                                 child: _buildStatCard(
                                   height: 50,
                                   width: 50,
-                                  title: "Checkin-in",
+                                  title: checkInText,
                                   iconName: "assets/checkin_order.png",
                                   color1: Colors.purple,
                                   color2: Colors.blue,
