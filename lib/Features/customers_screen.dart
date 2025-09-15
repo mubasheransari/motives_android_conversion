@@ -50,8 +50,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
             final items = state.loginModel!.journeyPlan;
             final filteredItems = items!.where((item) {
               final brand = item.partyName.toString().toLowerCase() ?? '';
-            //  final name = item.name?.toLowerCase() ?? '';
-              return brand.contains(searchQuery);// || name.contains(searchQuery);
+              return brand.contains(searchQuery);
             }).toList();
 
             if (filteredItems.isEmpty) {

@@ -3,21 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location/location.dart' as loc;
 import 'package:motives_android_conversion/Bloc/global_bloc.dart';
 import 'package:motives_android_conversion/Bloc/global_event.dart';
+import 'package:motives_android_conversion/Features/take_order.dart';
 import 'package:motives_android_conversion/widget/gradient_text.dart';
 
 class OrderMenuScreen extends StatefulWidget {
-  String shopname,miscid;
-   OrderMenuScreen({super.key,required this.shopname,required this.miscid});
+  String shopname, miscid;
+  OrderMenuScreen({super.key, required this.shopname, required this.miscid});
 
   @override
   State<OrderMenuScreen> createState() => _OrderMenuScreenState();
 }
 
 class _OrderMenuScreenState extends State<OrderMenuScreen> {
-
-      String checkInText = "Check In";
+  String checkInText = "Check In";
   String iconAsset = "assets/checkin_order.png";
-    final loc.Location location = loc.Location();
+  final loc.Location location = loc.Location();
 
   void _toggleCheckIn() {
     setState(() {
@@ -30,26 +30,25 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: GradientText("Order Menu", fontSize: 24),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
       ),
-     
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(5),
         child: SizedBox(
-     
           height: MediaQuery.of(context).size.height * 0.78,
           child: Card(
             color: Colors.grey[200],
             elevation: 8,
-            shadowColor:  Colors.grey.withOpacity(0.2),
+            shadowColor: Colors.grey.withOpacity(0.2),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -59,7 +58,6 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
 
                 children: [
-                 
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 6,
@@ -72,25 +70,53 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                       children: [
                         Row(
                           children: [
-                            Image.asset('assets/shop_orderscreen.png',height: 40,width: 40,),
-                            SizedBox(width: 5,),
-                          GradientText(widget.shopname, fontSize: 18), 
+                            Image.asset(
+                              'assets/shop_orderscreen.png',
+                              height: 40,
+                              width: 40,
+                            ),
+                            SizedBox(width: 5),
+                            GradientText(widget.shopname, fontSize: 18),
                           ],
                         ),
-                      SizedBox(height: 15,),
+                        SizedBox(height: 15),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () async{
-                                     final currentLocation = await location.getLocation();
-                          _toggleCheckIn();
-                          context.read<GlobalBloc>().add(CheckinCheckoutEvent(type: '5', userId:   context.read<GlobalBloc>().state.loginModel!.userinfo!.userId.toString(), lat: currentLocation.latitude.toString(), lng: currentLocation.longitude.toString(), act_type: "SHOP_CHECK", action: "IN", misc: widget.miscid, dist_id:   context.read<GlobalBloc>().state.loginModel!.userinfo!.disid.toString()));
-                           
+                              onTap: () async {
+                                final currentLocation = await location
+                                    .getLocation();
+                                _toggleCheckIn();
+                                context.read<GlobalBloc>().add(
+                                  CheckinCheckoutEvent(
+                                    type: '5',
+                                    userId: context
+                                        .read<GlobalBloc>()
+                                        .state
+                                        .loginModel!
+                                        .userinfo!
+                                        .userId
+                                        .toString(),
+                                    lat: currentLocation.latitude.toString(),
+                                    lng: currentLocation.longitude.toString(),
+                                    act_type: "SHOP_CHECK",
+                                    action: "IN",
+                                    misc: widget.miscid,
+                                    dist_id: context
+                                        .read<GlobalBloc>()
+                                        .state
+                                        .loginModel!
+                                        .userinfo!
+                                        .disid
+                                        .toString(),
+                                  ),
+                                );
                               },
                               child: SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.20,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.20,
                                 width: MediaQuery.of(context).size.width * 0.40,
                                 child: _buildStatCard(
                                   height: 50,
@@ -106,17 +132,22 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                             const SizedBox(width: 12),
                             InkWell(
                               onTap: () {
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TakeOrderScreen(),
+                                  ),
+                                );
                               },
                               child: SizedBox(
-                                     height: MediaQuery.of(context).size.height * 0.20,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.20,
                                 width: MediaQuery.of(context).size.width * 0.40,
                                 child: _buildStatCard(
                                   height: 55,
                                   width: 80,
                                   title: "Take Order",
-                                  iconName:
-                                      "assets/take_order.png",
+                                  iconName: "assets/take_order.png",
                                   color1: Colors.green,
                                   color2: Colors.teal,
                                 ),
@@ -130,17 +161,16 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {
-},
+                              onTap: () {},
                               child: SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.20,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.20,
                                 width: MediaQuery.of(context).size.width * 0.40,
                                 child: _buildStatCard(
                                   height: 50,
                                   width: 50,
                                   title: "Hold",
-                                  iconName:
-                                      "assets/hold.png",
+                                  iconName: "assets/hold.png",
                                   color1: Colors.orange,
                                   color2: Colors.deepOrange,
                                 ),
@@ -150,7 +180,8 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                             InkWell(
                               onTap: () {},
                               child: SizedBox(
-                                     height: MediaQuery.of(context).size.height * 0.20,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.20,
                                 width: MediaQuery.of(context).size.width * 0.40,
                                 child: _buildStatCard(
                                   height: 50,
@@ -170,19 +201,18 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {
-},
+                              onTap: () {},
                               child: SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.20,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.20,
                                 width: MediaQuery.of(context).size.width * 0.40,
                                 child: _buildStatCard(
                                   height: 50,
                                   width: 50,
                                   title: "Collect Payment",
-                                  iconName:
-                                      "assets/collect_payment.png",
+                                  iconName: "assets/collect_payment.png",
                                   color1: Color(0xff708993),
-                                  color2: Color(0xffA1C2BD)
+                                  color2: Color(0xffA1C2BD),
                                 ),
                               ),
                             ),
@@ -190,7 +220,8 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                             InkWell(
                               onTap: () {},
                               child: SizedBox(
-                                     height: MediaQuery.of(context).size.height * 0.20,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.20,
                                 width: MediaQuery.of(context).size.width * 0.40,
                                 child: _buildStatCard(
                                   height: 50,
@@ -207,8 +238,6 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                       ],
                     ),
                   ),
-
-             
                 ],
               ),
             ),
@@ -218,7 +247,6 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
     );
   }
 
-  
   Widget _buildStatCard({
     required String title,
     required String iconName,
@@ -258,5 +286,3 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
     );
   }
 }
-
-
