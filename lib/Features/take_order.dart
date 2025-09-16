@@ -275,10 +275,14 @@ backgroundColor: Colors.white,
               height: 200,
                             filteredItems[index].itemName!.contains('ULTRA RICH')
                                 ? "assets/product2-removebg-preview.png"
-                                : filteredItems[index].itemName!.contains('HARDUM - TEA')
+                                : filteredItems[index].itemName!.contains('HARDAM MIXTURE')
+                                    ? "assets/product4-removebg-preview.png"
+                                    : filteredItems[index].itemName!.contains('HARDUM - TEA')
                                     ? "assets/product1-removebg-preview.png"
                                      : filteredItems[index].itemName!.contains('HARDUM DANEDAR')
-                                    ? "assets/product6-removebg-preview.png"
+                                    ? "assets/product3-removebg-preview.png"
+                                       : filteredItems[index].itemName!.contains('BAITHAK')
+                                    ? "assets/mezan_baithak-removebg-preview.png"
                                     : 'assets/product5-removebg-preview.png',
                                    fit: BoxFit.cover,
                           ),
