@@ -272,53 +272,61 @@ backgroundColor: Colors.white,
                         subtitle: Column(
                           children: [
                             Text(filteredItems[index].itemDesc.toString(),style: TextStyle(fontSize: 13,color: Colors.grey)),
-                            Row(
-                              children: [
-                                Text('Qty : ',style: TextStyle(fontSize: 16)),
-                                InkWell(
-          onTap: () {
-            setState(() {
-              if (count > 0) count--;
-            });
-          },
-          child: Container(
-            width: 25,
-            height: 25,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.redAccent,
-            ),
-            child: const Icon(Icons.remove, color: Colors.white, size: 15),
-          ),
-        ),
-        const SizedBox(width: 12),
+       Row(
+  children: [
+    const Text(
+      'Qty : ',
+      style: TextStyle(fontSize: 16),
+    ),
 
-        // Counter Text
-        Text(
-          "$count",
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+    // Decrement Button
+    InkWell(
+      onTap: () {
+        setState(() {
+          if (state.loginModel!.journeyPlan![index].counter > 0) {
+            state.loginModel!.journeyPlan![index].counter--;
+          }
+        });
+      },
+      child: Container(
+        width: 25,
+        height: 25,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.redAccent,
         ),
-        const SizedBox(width: 12),
+        child: const Icon(Icons.remove, color: Colors.white, size: 15),
+      ),
+    ),
+    const SizedBox(width: 12),
 
-        // Increment Button
-        InkWell(
-          onTap: () {
-            setState(() {
-              count++;
-            });
-          },
-          child: Container(
-            width: 25,
-            height: 25,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.green,
-            ),
-            child: const Icon(Icons.add, color: Colors.white, size: 15),
-          ),
+    // Counter Text
+    Text(
+      "${state.loginModel!.journeyPlan![index].counter ??"0"}",
+      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+    ),
+    const SizedBox(width: 12),
+
+    // Increment Button
+    InkWell(
+      onTap: () {
+        setState(() {
+          state.loginModel!.journeyPlan![index].counter++;
+        });
+      },
+      child: Container(
+        width: 25,
+        height: 25,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.green,
         ),
-                              ],
-                            ),
+        child: const Icon(Icons.add, color: Colors.white, size: 15),
+      ),
+    ),
+  ],
+),
+
                             
                           ],
                         ),

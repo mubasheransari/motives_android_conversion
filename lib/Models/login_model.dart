@@ -167,6 +167,74 @@ class Distributor {
 }
 
 class JourneyPlan {
+  String segid;
+  String segement;
+  String accode;
+  String partyName;
+  String contper;
+  String contno;
+  String custClass;
+  String crLimit;
+  String crDays;
+  String custAddress;
+  String areaName;
+  String subAreaName;
+  String status;
+  int counter;
+
+  JourneyPlan({
+    required this.segid,
+    required this.segement,
+    required this.accode,
+    required this.partyName,
+    required this.contper,
+    required this.contno,
+    required this.custClass,
+    required this.crLimit,
+    required this.crDays,
+    required this.custAddress,
+    required this.areaName,
+    required this.subAreaName,
+    required this.status,
+    this.counter = 0, 
+  });
+
+  factory JourneyPlan.fromJson(Map<String, dynamic> json) => JourneyPlan(
+        segid: json["segid"],
+        segement: json["segement"],
+        accode: json["accode"],
+        partyName: json["party_name"],
+        contper: json["contper"],
+        contno: json["contno"],
+        custClass: json["cust_class"],
+        crLimit: json["cr_limit"],
+        crDays: json["cr_days"],
+        custAddress: json["cust_address"],
+        areaName: json["area_name"],
+        subAreaName: json["sub_area_name"],
+        status: json["status"],
+        counter: 0,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "segid": segid,
+        "segement": segement,
+        "accode": accode,
+        "party_name": partyName,
+        "contper": contper,
+        "contno": contno,
+        "cust_class": custClass,
+        "cr_limit": crLimit,
+        "cr_days": crDays,
+        "cust_address": custAddress,
+        "area_name": areaName,
+        "sub_area_name": subAreaName,
+        "status": status,
+      };
+}
+
+
+/*class JourneyPlan {
     String segid;
     String segement;
     String accode;
@@ -228,7 +296,7 @@ class JourneyPlan {
         "sub_area_name": subAreaName,
         "status": status,
     };
-}
+}*/
 
 
 class Log {
