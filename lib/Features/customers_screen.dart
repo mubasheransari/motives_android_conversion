@@ -23,16 +23,16 @@ class _CustomersScreenState extends State<CustomersScreen> {
       appBar: AppBar(
        backgroundColor: Colors.white,
         centerTitle: true,
-              title: GradientText("Customers", fontSize: 24),
+              title: GradientText("Shops", fontSize: 24),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
               decoration: const InputDecoration(
-                hintText: "Shop Name",
+                hintText: "Search Shops",
                 prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+      
               ),
               onChanged: (value) {
                 setState(() {
@@ -54,13 +54,18 @@ class _CustomersScreenState extends State<CustomersScreen> {
             }).toList();
 
             if (filteredItems.isEmpty) {
-              return const Center(child: Text("No items found"));
+              return const Center(child: Text("No Result Found"));
             }
 
             return ListView.builder(
               itemCount: filteredItems.length,
               itemBuilder: (context, index) {
                 return ListTile(
+                  leading:       Image.asset(
+                              'assets/shop_orderscreen.png',
+                              height: 40,
+                              width: 40,
+                            ),
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderMenuScreen(shopname: filteredItems[index].partyName.toString(),miscid: filteredItems[index].accode.toString())));
                   },

@@ -212,6 +212,7 @@ class TakeOrderScreen extends StatefulWidget {
 
 class _TakeOrderScreenState extends State<TakeOrderScreen> {
   String searchQuery = "";
+    int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +227,7 @@ backgroundColor: Colors.white,
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               decoration: const InputDecoration(
-                hintText: "Search by Product",
+                hintText: "Search Products",
                 prefixIcon: Icon(Icons.search),
                // border: OutlineInputBorder(),
               ),
@@ -268,7 +269,59 @@ backgroundColor: Colors.white,
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Text(filteredItems[index].itemName.toString(),style: TextStyle(fontSize: 14), ),
-                        subtitle: Text(filteredItems[index].itemDesc.toString(),style: TextStyle(fontSize: 13,color: Colors.grey)),
+                        subtitle: Column(
+                          children: [
+                            Text(filteredItems[index].itemDesc.toString(),style: TextStyle(fontSize: 13,color: Colors.grey)),
+                            Row(
+                              children: [
+                                Text('Qty : ',style: TextStyle(fontSize: 16)),
+                                InkWell(
+          onTap: () {
+            setState(() {
+              if (count > 0) count--;
+            });
+          },
+          child: Container(
+            width: 25,
+            height: 25,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.redAccent,
+            ),
+            child: const Icon(Icons.remove, color: Colors.white, size: 15),
+          ),
+        ),
+        const SizedBox(width: 12),
+
+        // Counter Text
+        Text(
+          "$count",
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(width: 12),
+
+        // Increment Button
+        InkWell(
+          onTap: () {
+            setState(() {
+              count++;
+            });
+          },
+          child: Container(
+            width: 25,
+            height: 25,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.green,
+            ),
+            child: const Icon(Icons.add, color: Colors.white, size: 15),
+          ),
+        ),
+                              ],
+                            ),
+                            
+                          ],
+                        ),
                         leading: Container(
                           child: Image.asset(
                              width: 70,
