@@ -12,7 +12,6 @@ import 'package:motives_android_conversion/Bloc/global_state.dart';
 import 'package:motives_android_conversion/Features/dashboard_screen.dart';
 import 'package:motives_android_conversion/widget/toast_widget.dart';
 
-
 class MarkAttendanceView extends StatefulWidget {
   const MarkAttendanceView({super.key});
 
@@ -95,7 +94,7 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
     } while (visibleRegion.southwest.latitude == -90.0);
 
     setState(() {
-      _isMapReady = true; 
+      _isMapReady = true;
     });
   }
 
@@ -148,15 +147,16 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
                 builder: (context, state) {
                   return ElevatedButton(
                     onPressed: () async {
-                      final XFile? photo =
-                          await _picker.pickImage(source: ImageSource.camera);
+                      final XFile? photo = await _picker.pickImage(
+                        source: ImageSource.camera,
+                      );
                       final now = DateTime.now();
 
                       String formattedDay = DateFormat('EEEE').format(now);
-                      String formattedDate =
-                          DateFormat('MMM dd, yyyy').format(now);
-                      String formattedTime =
-                          DateFormat('hh:mm a').format(now);
+                      String formattedDate = DateFormat(
+                        'MMM dd, yyyy',
+                      ).format(now);
+                      String formattedTime = DateFormat('hh:mm a').format(now);
 
                       final storage = GetStorage();
                       storage.write("checkin_day", formattedDay);
@@ -170,14 +170,22 @@ class _MarkAttendanceViewState extends State<MarkAttendanceView> {
                         final currentLocation = await location.getLocation();
 
                         context.read<GlobalBloc>().add(
-                              MarkAttendanceEvent(
-                                lat: currentLocation.latitude.toString(),
-                                lng: currentLocation.longitude.toString(),
-                                type: '1',
-                                userId:
-                                    state.loginModel!.userinfo!.userId.toString(),
-                              ),
-                            );
+                          MarkAttendanceEvent(
+                            lat: currentLocation.latitude.toString(),
+                            lng: currentLocation.longitude.toString(),
+                            type: '1',
+                            userId: state.loginModel!.userinfo!.userId
+                                .toString(),
+                          ),
+                        );
+
+                        final box = GetStorage();
+                        var email = box.read("email");
+                        var password = box.read("password");
+
+                        context.read<GlobalBloc>().add(
+                          LoginEvent(email: email!, password: password),
+                        );
 
                         Navigator.push(
                           context,
