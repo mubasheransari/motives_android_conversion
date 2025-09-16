@@ -217,18 +217,18 @@ class _TakeOrderScreenState extends State<TakeOrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:context.read<GlobalBloc>().state.loginModel!.items!.length != 0 ? AppBar(
-       backgroundColor: Colors.transparent,
+backgroundColor: Colors.white,
         centerTitle: true,
               title: GradientText("Products", fontSize: 24),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
               decoration: const InputDecoration(
                 hintText: "Search by Product",
                 prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+               // border: OutlineInputBorder(),
               ),
               onChanged: (value) {
                 setState(() {
@@ -243,37 +243,59 @@ class _TakeOrderScreenState extends State<TakeOrderScreen> {
               title: GradientText("Products", fontSize: 24),
     
       ),
-      body: BlocBuilder<GlobalBloc, GlobalState>(
-        builder: (context, state) {
-          if (state.status== LoginStatus.success &&
-              state.loginModel!.items!.isNotEmpty) {
-            final items =   state.loginModel!.items!;
-            final filteredItems = items.where((item) {
-              final name = item.name.toString().toLowerCase() ?? '';
-              final itemName = item.itemName!.toLowerCase() ?? '';
-              final itemDescription = item.itemDesc!.toLowerCase() ?? "";
-              return name.contains(searchQuery) || itemName.contains(searchQuery) 
-                  ;
-            }).toList();
+      body: Column(
+        children: [
 
-            if (filteredItems.isEmpty) {
-              return const Center(child: Text("No items found"));
-            }
-            return ListView.builder(
-              itemCount: filteredItems.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(filteredItems[index].itemName.toString() ?? "No Brand"),
-                  subtitle: Text(filteredItems[index].itemDesc ?? "No Name"),
-                );
+          Expanded(
+            child: BlocBuilder<GlobalBloc, GlobalState>(
+              builder: (context, state) {
+                if (state.status== LoginStatus.success &&
+                    state.loginModel!.items!.isNotEmpty) {
+                  final items =   state.loginModel!.items!;
+                  final filteredItems = items.where((item) {
+                    final name = item.name.toString().toLowerCase() ?? '';
+                    final itemName = item.itemName!.toLowerCase() ?? '';
+                    final itemDescription = item.itemDesc!.toLowerCase() ?? "";
+                    return name.contains(searchQuery) || itemName.contains(searchQuery) 
+                        ;
+                  }).toList();
+            
+                  if (filteredItems.isEmpty) {
+                    return const Center(child: Text("No items found"));
+                  }
+                  return ListView.builder(
+                    itemCount: filteredItems.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(filteredItems[index].itemName.toString(),style: TextStyle(fontSize: 14), ),
+                        subtitle: Text(filteredItems[index].itemDesc.toString(),style: TextStyle(fontSize: 13,color: Colors.grey)),
+                        leading: Container(
+                          child: Image.asset(
+                             width: 70,
+              height: 200,
+                            filteredItems[index].itemName!.contains('ULTRA RICH')
+                                ? "assets/product2-removebg-preview.png"
+                                : filteredItems[index].itemName!.contains('HARDUM - TEA')
+                                    ? "assets/product1-removebg-preview.png"
+                                     : filteredItems[index].itemName!.contains('HARDUM DANEDAR')
+                                    ? "assets/product6-removebg-preview.png"
+                                    : 'assets/product5-removebg-preview.png',
+                                   fit: BoxFit.cover,
+                          ),
+                        ),
+            
+                      );
+                    },
+                  );
+                } else {
+                  return const Center(
+                    child:Text('No PJP Available!') //CircularProgressIndicator(),
+                  );
+                }
               },
-            );
-          } else {
-            return const Center(
-              child:Text('No PJP Available!') //CircularProgressIndicator(),
-            );
-          }
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
