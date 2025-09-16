@@ -31,6 +31,217 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
     });
   }
 
+  String? selectedOption; // will hold selected value
+
+  Future<void> showCustomRadioDialog(BuildContext context) async {
+  int selectedValue = 0;
+
+  List<String> holdText= ["Purchaser Not Available","Tea Time","Lunch Time"];
+
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        backgroundColor: Colors.white, // White only
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero, // No rounded corners
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12), // Reduced padding
+          child: StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                   Center(child: GradientText("Select Hold Reason!", fontSize: 19)),
+                  // const Text(
+                  //   "Choose an Option",
+                  //   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  // ),
+                  const SizedBox(height: 8),
+                  ...List.generate(holdText.length, (index) {
+                    return RadioListTile<int>(
+                      dense: true, // Compact style
+                      contentPadding: EdgeInsets.zero, // No extra padding
+                      visualDensity: VisualDensity.compact, // Reduce spacing
+                      title: Text(
+                       holdText[index],
+                        style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w300),
+                      ),
+                      value: index,
+                      groupValue: selectedValue,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedValue = value!;
+                        });
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  }),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: TextButton(
+                  //     onPressed: () => Navigator.pop(context, selectedValue),
+                  //     child: const Text("OK"),
+                  //   ),
+                  // ),
+                ],
+              );
+            },
+          ),
+        ),
+      );
+    },
+  );
+}
+
+  Future<void> noOrderReason(BuildContext context) async {
+  int selectedValue = 0;
+
+  List<String> noOrder= ["No Order","Credit Not Alowed","Shop Closed","Stock Available","No Order With Collection","Visit For Collection"];
+
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        backgroundColor: Colors.white, // White only
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero, // No rounded corners
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12), // Reduced padding
+          child: StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                   Center(child: GradientText("Select No Order Reason!", fontSize: 19)),
+                  // const Text(
+                  //   "Choose an Option",
+                  //   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  // ),
+                  const SizedBox(height: 8),
+                  ...List.generate(noOrder.length, (index) {
+                    return RadioListTile<int>(
+                      dense: true, // Compact style
+                      contentPadding: EdgeInsets.zero, // No extra padding
+                      visualDensity: VisualDensity.compact, // Reduce spacing
+                      title: Text(
+                       noOrder[index],
+                        style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w300),
+                      ),
+                      value: index,
+                      groupValue: selectedValue,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedValue = value!;
+                        });
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  }),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: TextButton(
+                  //     onPressed: () => Navigator.pop(context, selectedValue),
+                  //     child: const Text("OK"),
+                  //   ),
+                  // ),
+                ],
+              );
+            },
+          ),
+        ),
+      );
+    },
+  );
+}
+
+  // void _showRadioDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       String? tempSelected = selectedOption; // temp value inside dialog
+
+  //       return StatefulBuilder(
+  //         builder: (context, setState) {
+  //           return AlertDialog(
+  //                   backgroundColor: Colors.white, // force white background
+  //         shape: const RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.zero, // no round corners
+  //         ),
+
+  //             title:  Center(child:  GradientText("HOLD!", fontSize: 18),),
+  //             content: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 RadioListTile<String>(
+  //                   title: const Text("Option 1"),
+  //                   value: "Option 1",
+  //                   groupValue: tempSelected,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       tempSelected = value;
+  //                     });
+  //                   },
+  //                 ),
+  //                 RadioListTile<String>(
+  //                   title: const Text("Option 2"),
+  //                   value: "Option 2",
+  //                   groupValue: tempSelected,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       tempSelected = value;
+  //                     });
+  //                   },
+  //                 ),
+  //                 RadioListTile<String>(
+  //                   title: const Text("Option 3"),
+  //                   value: "Option 3",
+  //                   groupValue: tempSelected,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       tempSelected = value;
+  //                     });
+  //                   },
+  //                 ),
+  //                 RadioListTile<String>(
+  //                   title: const Text("Option 4"),
+  //                   value: "Option 4",
+  //                   groupValue: tempSelected,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       tempSelected = value;
+  //                     });
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //             actions: [
+  //               TextButton(
+  //                 child: const Text("Cancel"),
+  //                 onPressed: () => Navigator.of(context).pop(),
+  //               ),
+  //               ElevatedButton(
+  //                 child: const Text("OK"),
+  //                 onPressed: () {
+  //                   setState(() {
+  //                     selectedOption = tempSelected;
+  //                   });
+  //                   Navigator.of(context).pop();
+  //                 },
+  //               ),
+  //             ],
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,7 +372,9 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                showCustomRadioDialog(context);
+                              },
                               child: SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.20,
@@ -178,7 +391,9 @@ class _OrderMenuScreenState extends State<OrderMenuScreen> {
                             ),
                             const SizedBox(width: 12),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                noOrderReason(context);
+                              },
                               child: SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.20,
